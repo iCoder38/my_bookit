@@ -393,7 +393,7 @@ class SignUpVC: UIViewController , CLLocationManagerDelegate {
     }
     
     
-    @IBAction func openTermsAndCondition() {
+    @objc func openTermsAndCondition() {
         if let url = URL(string: "https://bookitweb.com/pages/termandconditions") {
             // Check if the URL can be opened
             if UIApplication.shared.canOpenURL(url) {
@@ -439,22 +439,19 @@ extension SignUpVC: UITableViewDataSource {
         cell.btnSignUp.backgroundColor =  .systemGray3
         
         cell.btnTnC.addTarget(self, action: #selector(acceptTandC), for: .touchUpInside)
-        // cell.btnTermsAndCondition.addTarget(self, action: #selector(openTermsAndCondition), for: .touchUpInside)
+        cell.btnTermsAndCondition.addTarget(self, action: #selector(openTermsAndCondition), for: .touchUpInside)
         
         return cell
     }
 
-    
-    @objc func btnSignUpTapped(){
+    @objc func btnSignUpTapped() {
         
         let settingsVCId = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "NPHomeVC") as? NPHomeVC
         self.navigationController?.pushViewController(settingsVCId!, animated: true)
     }
 
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

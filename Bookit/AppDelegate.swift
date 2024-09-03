@@ -6,6 +6,7 @@
 //
 
 // com.production.bookit
+// merchant.com.production.bookit
 //
 import UIKit
 import Firebase

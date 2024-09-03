@@ -85,8 +85,18 @@ class SignUpTableViewCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak var btnTermsAndCondition:UIButton!
-        
+    @IBOutlet weak var btnTermsAndCondition:UIButton! {
+        didSet {
+            underlineButtonTitle(button: btnTermsAndCondition, title: "Terms and conditions")
+        }
+    }
+    
+    func underlineButtonTitle(button: UIButton, title: String) {
+        let attributedString = NSMutableAttributedString(string: title)
+        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: attributedString.length))
+        button.setAttributedTitle(attributedString, for: .normal)
+    }
+    
     @IBOutlet weak var btnTnC:UIButton!{
         
         didSet{

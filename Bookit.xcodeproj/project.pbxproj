@@ -1488,7 +1488,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bookit/Bookit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 92TTP9FKM2;
+				DEVELOPMENT_TEAM = NHVZESNL9B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bookit/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bookit.;
@@ -1511,7 +1511,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.6;
-				PRODUCT_BUNDLE_IDENTIFIER = com.production.bookit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.production.bookit1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Bookit/ThirdParty/SideBarMenu/Bookit-Bridging-Header.h";
@@ -1532,7 +1532,7 @@
 				CODE_SIGN_ENTITLEMENTS = Bookit/Bookit.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 92TTP9FKM2;
+				DEVELOPMENT_TEAM = NHVZESNL9B;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bookit/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bookit.;
@@ -1555,7 +1555,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.6;
-				PRODUCT_BUNDLE_IDENTIFIER = com.production.bookit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.production.bookit1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "Bookit/ThirdParty/SideBarMenu/Bookit-Bridging-Header.h";
