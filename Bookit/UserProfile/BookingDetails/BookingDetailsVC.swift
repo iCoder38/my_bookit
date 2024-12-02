@@ -10,8 +10,110 @@ import SDWebImage
 import Alamofire
 
 import PassKit
+import SquareInAppPaymentsSDK
 
 class BookingDetailsVC: UIViewController {
+    
+//    @objc func startCardEntry() {
+//        let cardEntryViewController = SQIPCardEntryViewController()
+//        cardEntryViewController.delegate = self
+//        present(cardEntryViewController, animated: true, completion: nil)
+//    }
+//
+//    
+//    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didObtain cardDetails: SQIPCardDetails, completionHandler: @escaping ((any Error)?) -> Void) {
+//        let cardNonce = cardDetails.nonce
+//        print("Nonce received: \(cardNonce)")
+//        
+//        // Simulate payment processing
+//        let paymentSuccessful = true // Replace with actual payment processing logic
+//        
+//        if paymentSuccessful {
+//            completionHandler(nil) // No error
+//        } else {
+//            let error = NSError(domain: "com.yourapp.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Payment processing failed."])
+//            completionHandler(error) // Return an error to indicate failure
+//        }
+//    }
+//
+//    
+//    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didCompleteWith status: SQIPCardEntryCompletionStatus) {
+//        cardEntryViewController.dismiss(animated: true) {
+//            switch status {
+//            case .success:
+//                print("Card entry was successful!")
+//                // Proceed with payment processing or other actions
+//            case .canceled:
+//                print("Card entry was canceled by the user.")
+//                // Handle user cancellation gracefully
+//            @unknown default:
+//                fatalError("Unhandled status: \(status)")
+//            }
+//        }
+//    }
+
+
+
+    // Start card entry process
+    /*@objc func startCardEntry() {
+        dismiss(animated: true) {
+                    let vc = self.makeCardEntryViewController()
+                    vc.delegate = self
+
+                    let nc = UINavigationController(rootViewController: vc)
+                    self.present(nc, animated: true, completion: nil)
+                }
+    }
+
+        
+        // Handle completion of the card entry process
+        func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didCompleteWith status: SQIPCardEntryCompletionStatus) {
+            cardEntryViewController.dismiss(animated: true) {
+                switch status {
+                case .success:
+                    print("Card entry was successful!")
+                case .canceled:
+                    print("Card entry was canceled.")
+                @unknown default:
+                    fatalError("Unhandled status.")
+                }
+            }
+        }
+        
+        // Handle obtaining card details
+        func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didObtain cardDetails: SQIPCardDetails, completionHandler: @escaping ((any Error)?) -> Void) {
+            let cardNonce = cardDetails.nonce
+            print("Nonce received: \(cardNonce)")
+            completionHandler(nil) // Proceed with payment
+        }*/
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     var dict_get_booking_details:NSDictionary!
     
@@ -274,7 +376,7 @@ class BookingDetailsVC: UIViewController {
         UserDefaults.standard.set("", forKey: "key_save_card_details")
         UserDefaults.standard.set(nil, forKey: "key_save_card_details")
         
-        
+        didRequestPayWithCard()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -699,8 +801,58 @@ class BookingDetailsVC: UIViewController {
         }
     }
     
-    
+    //
 }
+extension BookingDetailsVC {
+    func didRequestPayWithCard() {
+        dismiss(animated: true) {
+            let vc = self.makeCardEntryViewController()
+            vc.delegate = self
+
+            let nc = UINavigationController(rootViewController: vc)
+            self.present(nc, animated: true, completion: nil)
+        }
+    }
+}
+
+import SquareInAppPaymentsSDK
+extension BookingDetailsVC {
+    func makeCardEntryViewController() -> SQIPCardEntryViewController {
+        let cardEntry = SQIPCardEntryViewController(theme: SQIPTheme())
+        cardEntry.collectPostalCode = false
+        cardEntry.delegate = self
+        return cardEntry
+    }
+}
+
+//Handle the card entry success or failure from the card entry form
+extension BookingDetailsVC: SQIPCardEntryViewControllerDelegate {
+    func cardEntryViewController(
+        _: SQIPCardEntryViewController,
+        didCompleteWith _: SQIPCardEntryCompletionStatus
+    ) {
+        // Implemented in step 4.
+    }
+
+    func cardEntryViewController(
+        _: SQIPCardEntryViewController,
+        didObtain _: SQIPCardDetails,
+        completionHandler _: @escaping (Error?) -> Void
+    ) {
+        // Implemented in step 4.
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+
+extension BookingDetailsVC: UINavigationControllerDelegate {
+   func navigationControllerSupportedInterfaceOrientations(
+       _: UINavigationController
+   ) -> UIInterfaceOrientationMask {
+       return .portrait
+   }
+}
+
 
 //MARK:- TABLE VIEW -
 extension BookingDetailsVC: UITableViewDataSource {
@@ -849,7 +1001,10 @@ extension BookingDetailsVC: UITableViewDataSource {
             self.str_save_booking_id_for_pending_payment = "\(self.dict_get_booking_details["bookingId"]!)"
             // self.payment_via_cwa(payment_to_cwa: self.str_pending_amount_to_pay)
             
-            self.open_card_popup(final_payment_for_card_payment: self.str_pending_amount_to_pay)
+            // self.open_card_popup(final_payment_for_card_payment: self.str_pending_amount_to_pay)
+            
+            debugPrint("Implement Square payment 3")
+             
          }
                                 
         let cancel = NewYorkButton(title: "Dismiss", style: .cancel)
@@ -860,6 +1015,91 @@ extension BookingDetailsVC: UITableViewDataSource {
          
         
     }
+    
+    // square payment gateway
+    /*@objc func startCardEntry() {
+        // Create and display the card entry form
+        let cardEntry = SQIPCardEntryViewController()
+        cardEntry.delegate = self
+        present(cardEntry, animated: true, completion: nil)
+    }
+    
+    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didCompleteWith status: SQIPCardEntryCompletionStatus) {
+            cardEntryViewController.dismiss(animated: true) {
+                switch status {
+                case .success:
+                    print("Card successfully entered!")
+                case .canceled:
+                    print("User canceled the card entry.")
+                case .failure:
+                    print("Failed to process card entry.")
+                @unknown default:
+                    fatalError("Unhandled card entry status.")
+                }
+            }
+        }
+    
+//    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didObtain cardDetails: SQIPCardDetails, completionHandler: @escaping ((any Error)?) -> Void) {
+//
+//    }
+    
+    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didObtain cardDetails: SQIPCardDetails) async throws {
+        <#code#>
+    }
+    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didObtainCardDetails cardDetails: SQIPCardDetails) {
+        cardEntryViewController.dismiss(animated: true) {
+            guard let cardNonce = cardDetails.nonce else { return }
+            print("Nonce received: \(cardNonce)")
+            self.processPayment(with: cardNonce)
+        }
+    }
+
+    func processPayment(with nonce: String) {
+        let url = URL(string: "https://connect.squareupsandbox.com/v2/payments")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer YOUR_SANDBOX_ACCESS_TOKEN", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        // Payment payload
+        let paymentData: [String: Any] = [
+            "source_id": nonce,
+            "idempotency_key": UUID().uuidString, // Unique key for each request
+            "amount_money": [
+                "amount": 100, // Amount in cents (100 = $1.00)
+                "currency": "USD"
+            ]
+        ]
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: paymentData, options: [])
+        } catch {
+            print("Failed to serialize payment data: \(error)")
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error making payment: \(error)")
+                return
+            }
+
+            guard let data = data, let httpResponse = response as? HTTPURLResponse else {
+                print("No data or response received")
+                return
+            }
+
+            if httpResponse.statusCode == 200 {
+                print("Payment successful!")
+                if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+                    print("Payment response: \(json)")
+                }
+            } else {
+                print("Payment failed with status code: \(httpResponse.statusCode)")
+            }
+        }.resume()
+    }*/
+
     
     @objc func open_card_popup(final_payment_for_card_payment:String) {
         

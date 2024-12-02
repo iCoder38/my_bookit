@@ -980,6 +980,7 @@
 				896FC42B276DF48000B3139E /* Frameworks */,
 				896FC42C276DF48000B3139E /* Resources */,
 				7F1DB250DB7B9EB3412870C8 /* [CP] Embed Pods Frameworks */,
+				B9EF5BC82CFDEC7B00251045 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1175,6 +1176,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bookit/Pods-Bookit-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B9EF5BC82CFDEC7B00251045 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nSETUP_SCRIPT=${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}\"/SquareInAppPaymentsSDK.framework/setup\"\nif [ -f \"$SETUP_SCRIPT\" ]; then\n\"$SETUP_SCRIPT\"\nfi\n";
 		};
 		CB2CF95E026FBF768DB92F2D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

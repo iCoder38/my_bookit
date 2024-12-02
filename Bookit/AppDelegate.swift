@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
         
         FirebaseApp.configure()
         
+        // SQUARE PAYMENT GATEWAY
         SQIPInAppPaymentsSDK.squareApplicationID = "sandbox-sq0idb-dDeAQWxRvZonJDQlxsr9Lg"
         
 //         Stripe.setDefaultPublishableKey(STRIPE_PROCESS)

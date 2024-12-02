@@ -254,8 +254,8 @@
             filePath = "Bookit/UserProfile/Booking/BookingVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "206"
-            endingLineNumber = "206"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
             landmarkName = "check_availaibility()"
             landmarkType = "7">
          </BreakpointContent>
@@ -382,8 +382,8 @@
             filePath = "Bookit/UserProfile/BookingDetails/BookingDetailsVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "830"
-            endingLineNumber = "830"
+            startingLineNumber = "982"
+            endingLineNumber = "982"
             landmarkName = "pending_amount_payment_click_method()"
             landmarkType = "7">
          </BreakpointContent>
@@ -482,36 +482,6 @@
             endingLineNumber = "291"
             landmarkName = "btnCountryPress()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "5F6C7691-E13A-4B61-8D3F-04C7C53CE466 - e43d1b7dc58b25cb"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Array&lt;Swift.Int&gt;, Swift.Array&lt;Swift.String&gt;) -&gt; () in Bookit.customer_complete_profile.btnCountryPress() -&gt; ()"
-                  moduleName = "Bookit"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dishantrajput/Documents/evs/my_bookit/Bookit/UserProfile/SignUp/customer_complete_profile/customer_complete_profile.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "291"
-                  endingLineNumber = "291">
-               </Location>
-               <Location
-                  uuid = "5F6C7691-E13A-4B61-8D3F-04C7C53CE466 - e43d1b7dc58b25cb"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Array&lt;Swift.Int&gt;, Swift.Array&lt;Swift.String&gt;) -&gt; () in Bookit.customer_complete_profile.btnCountryPress() -&gt; ()"
-                  moduleName = "Bookit"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/dishantrajput/Documents/evs/my_bookit/Bookit/UserProfile/SignUp/customer_complete_profile/customer_complete_profile.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "291"
-                  endingLineNumber = "291">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -716,8 +686,8 @@
             filePath = "Bookit/UserProfile/Booking/BookingVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "viewWillAppear(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -748,9 +718,25 @@
             filePath = "Bookit/UserProfile/BookingDetails/BookingDetailsVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "849"
-            endingLineNumber = "849"
+            startingLineNumber = "1001"
+            endingLineNumber = "1001"
             landmarkName = "pending_amount_payment_click_method()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F587E30A-B53B-4302-9365-2D412D21789D"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Bookit/UserProfile/Booking/BookingVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "576"
+            endingLineNumber = "576"
+            landmarkName = "update_payment_after_stripe(str_booking_id:str_payment_Status:str_status_is:str_transaction_id:str_total_price:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

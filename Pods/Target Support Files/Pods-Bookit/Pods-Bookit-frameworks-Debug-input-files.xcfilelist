@@ -21,4 +21,5 @@ ${BUILT_PRODUCTS_DIR}/SwiftGifOrigin/SwiftGifOrigin.framework
 ${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework
 ${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework
 ${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework
+${PODS_XCFRAMEWORKS_BUILD_DIR}/SquareBuyerVerificationSDK/SquareBuyerVerificationSDK.framework/SquareBuyerVerificationSDK
 ${PODS_XCFRAMEWORKS_BUILD_DIR}/SquareInAppPaymentsSDK/SquareInAppPaymentsSDK.framework/SquareInAppPaymentsSDK

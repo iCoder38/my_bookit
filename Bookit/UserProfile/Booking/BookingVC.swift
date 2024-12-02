@@ -10,8 +10,9 @@ import FSCalendar
 import Alamofire
 
 import PassKit
+import SquareInAppPaymentsSDK
 
-class BookingVC: UIViewController {
+class BookingVC: UIViewController, SQIPCardEntryViewControllerDelegate {
     
     var club_details_get_for_schedule:NSDictionary!
     
@@ -27,33 +28,36 @@ class BookingVC: UIViewController {
     var txt_exp = UITextField()
     var txt_cvv = UITextField()
     
+    var paymentForSquare:Double!
+    var storeSquarePaymentId:String!
+    
     // ***************************************************************** // nav
-                    
-        @IBOutlet weak var navigationBar:UIView! {
-            didSet {
-                navigationBar.backgroundColor = NAVIGATION_COLOR
-                navigationBar.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-                navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-                navigationBar.layer.shadowOpacity = 1.0
-                navigationBar.layer.shadowRadius = 15.0
-                navigationBar.layer.masksToBounds = false
-            }
+    
+    @IBOutlet weak var navigationBar:UIView! {
+        didSet {
+            navigationBar.backgroundColor = NAVIGATION_COLOR
+            navigationBar.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+            navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+            navigationBar.layer.shadowOpacity = 1.0
+            navigationBar.layer.shadowRadius = 15.0
+            navigationBar.layer.masksToBounds = false
         }
-            
-       @IBOutlet weak var btnBack:UIButton! {
-            didSet {
-                btnBack.tintColor = NAVIGATION_BACK_COLOR
-            }
+    }
+    
+    @IBOutlet weak var btnBack:UIButton! {
+        didSet {
+            btnBack.tintColor = NAVIGATION_BACK_COLOR
         }
-            
-        @IBOutlet weak var lblNavigationTitle:UILabel! {
-            didSet {
-                lblNavigationTitle.text = "Schedule a date"
-                lblNavigationTitle.textColor = NAVIGATION_TITLE_COLOR
-                lblNavigationTitle.backgroundColor = .clear
-            }
+    }
+    
+    @IBOutlet weak var lblNavigationTitle:UILabel! {
+        didSet {
+            lblNavigationTitle.text = "Schedule a date"
+            lblNavigationTitle.textColor = NAVIGATION_TITLE_COLOR
+            lblNavigationTitle.backgroundColor = .clear
         }
-                    
+    }
+    
     // ***************************************************************** // nav
     
     
@@ -69,11 +73,13 @@ class BookingVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.backgroundColor = .white
         self.navigationController?.isNavigationBarHidden = true
         
         self.btnBack.addTarget(self, action: #selector(back_click_method), for: .touchUpInside)
+        
+        print(self.club_details_get_for_schedule as Any)
         
         // let indexPath = IndexPath.init(row: 0, section: 0)
         // let cell = self.tablView.cellForRow(at: indexPath) as! BookingTableViewCell
@@ -81,53 +87,55 @@ class BookingVC: UIViewController {
         // cell.lblTop.text = (self.dict_get_table_Details["ClubfullName"] as! String)+" - Table '\(self.dict_get_table_Details["tableName"] as! String)' Booking"
         
         /*if cell.lblTop == "booking_Details" {
-            // pay_pending_payment_wb
-            // print(self.dict_get_table_Details as Any)
-            
-            /*
-             Clubbanner = "";
-             ClubcontactNumber = 7428171872;
-             Clubemail = "raushan@mailinator.com";
-             ClubfullName = "Raushan Kumar";
-             Clubimage = "https://demo4.evirtualservices.net/bookit/img/uploads/users/16400815972.jpg";
-             ClublastName = "";
-             Tableimage = "https://demo4.evirtualservices.net/bookit/img/uploads/table/16400820692.jpg";
-             TableseatPrice = 75;
-             TabletotalSeat = 5;
-             Userimage = "";
-             advancePayment = "187.5";
-             bokingDate = "";
-             bookingId = 15;
-             clubId = 2;
-             clubTableId = 2;
-             contactNumber = 1232142314;
-             created = "2022-01-19 12:53:00";
-             email = "ios@gmail.com";
-             fullName = ios;
-             fullPaymentStatus = 2;
-             lastName = "";
-             seatPrice = 75;
-             tableName = Xyz;
-             totalAmount = 375;
-             totalSeat = 5;
-             userId = 6;
-             
-             */
-            
-            cell.lblTop.text = (self.dict_get_table_Details["ClubfullName"] as! String)+" - Table '\(self.dict_get_table_Details["tableName"] as! String)' Booking"
-            
-            // let indexPath = IndexPath.init(row: 0, section: 0)
-            // let cell = self.tbleView.cellForRow(at: indexPath) as! PaymentTableViewCell
-            
-            
-            
-        } else {
-        
-            cell.lblTop.text = String(self.get_club_name)+" - Table '\(self.dict_get_table_Details["name"] as! String)' Booking"
-            
-            // self.strCardType = "none"
-        
-        }*/
+         // pay_pending_payment_wb
+         // print(self.dict_get_table_Details as Any)
+         
+         print()
+         
+         /*
+          Clubbanner = "";
+          ClubcontactNumber = 7428171872;
+          Clubemail = "raushan@mailinator.com";
+          ClubfullName = "Raushan Kumar";
+          Clubimage = "https://demo4.evirtualservices.net/bookit/img/uploads/users/16400815972.jpg";
+          ClublastName = "";
+          Tableimage = "https://demo4.evirtualservices.net/bookit/img/uploads/table/16400820692.jpg";
+          TableseatPrice = 75;
+          TabletotalSeat = 5;
+          Userimage = "";
+          advancePayment = "187.5";
+          bokingDate = "";
+          bookingId = 15;
+          clubId = 2;
+          clubTableId = 2;
+          contactNumber = 1232142314;
+          created = "2022-01-19 12:53:00";
+          email = "ios@gmail.com";
+          fullName = ios;
+          fullPaymentStatus = 2;
+          lastName = "";
+          seatPrice = 75;
+          tableName = Xyz;
+          totalAmount = 375;
+          totalSeat = 5;
+          userId = 6;
+          
+          */
+         
+         cell.lblTop.text = (self.dict_get_table_Details["ClubfullName"] as! String)+" - Table '\(self.dict_get_table_Details["tableName"] as! String)' Booking"
+         
+         // let indexPath = IndexPath.init(row: 0, section: 0)
+         // let cell = self.tbleView.cellForRow(at: indexPath) as! PaymentTableViewCell
+         
+         
+         
+         } else {
+         
+         cell.lblTop.text = String(self.get_club_name)+" - Table '\(self.dict_get_table_Details["name"] as! String)' Booking"
+         
+         // self.strCardType = "none"
+         
+         }*/
         
         
         
@@ -142,18 +150,18 @@ class BookingVC: UIViewController {
         super.viewWillAppear(true)
         
         if let payment_details = UserDefaults.standard.value(forKey: "key_save_card_details") as? [String:Any] {
-        
+            
             self.btnBack.isHidden = true
             self.lblNavigationTitle.text = "please wait..."
             
             ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
             
-            self.payment_via_cwa(payment_to_cwa: (payment_details["card_amount"] as! String),
+            /*self.payment_via_cwa(payment_to_cwa: (payment_details["card_amount"] as! String),
                                  get_card_number: (payment_details["card_number"] as! String),
                                  get_card_name: (payment_details["card_name"] as! String),
                                  get_card_cvv: (payment_details["card_cvv"] as! String),
                                  get_card_year: (payment_details["card_year"] as! String),
-                                 get_card_month: (payment_details["card_month"] as! String)
+                                 get_card_month: (payment_details["card_month"] as! String)*/
             )
             
         }
@@ -202,7 +210,7 @@ class BookingVC: UIViewController {
                     strSuccess2 = JSON["Availabe"]as Any as? String
                     
                     if strSuccess2 == "No" {
-                    
+                        
                         let alert = NewYorkAlertController(title: String("Alert"), message: String("This table is already booked for today. Please choose another table."), style: .alert)
                         
                         alert.addImage(UIImage.gif(name: "gif_alert"))
@@ -222,24 +230,25 @@ class BookingVC: UIViewController {
                         // seat price
                         let myString = "\(self.dict_get_table_Details["seatPrice"]!)"
                         let convert_seat_price_to_double = myString.toDouble()
-//                        print(convert_seat_price_to_double)
+                        //                        print(convert_seat_price_to_double)
                         
                         // username
                         let club_name = (self.dict_get_table_Details["userName"] as! String)
                         
                         // club name
                         let table_name = (self.dict_get_table_Details["name"] as! String)
-//
+                        //
                         
                         
                         
                         // calculate booking fee
-                        let double_add_booking_fee_with_total = (convert_seat_price_to_double!*Double(0.039))+Double(0.30)
+                        // let double_add_booking_fee_with_total = (convert_seat_price_to_double!*Double(0.039))+Double(0.30)
+                        let double_add_booking_fee_with_total = (convert_seat_price_to_double!*Double(0))+Double(0)
                         print(double_add_booking_fee_with_total as Any)
                         
                         let s_final_amount = (String(format:"%.02f", double_add_booking_fee_with_total))
                         // let myInt3_final_amount = (s_final_amount as NSString).integerValue
-//                        print(s_final_amount as Any)
+                        //                        print(s_final_amount as Any)
                         
                         
                         // table price
@@ -269,38 +278,42 @@ class BookingVC: UIViewController {
                         print(final_pay_to_club as Any)
                         
                         let alert_table_price = "Table Price : $"+String(final_table_price)
-                        let alert_booking_price = "\n\nBooking fees : $"+String(s_final_amount)
+                        // let alert_booking_price = "\n\nBooking fees : $"+String(s_final_amount)
                         let alert_deposit = "\n\nDeposit : "+String(club_deposit_advance)+"%"
                         let alert_pay_price = "$"+final_pay_to_club
                         
                         //
-                        let actionSheet = NewYorkAlertController(title: "Payment", message: alert_table_price+alert_booking_price+alert_deposit, style: .actionSheet)
+//                        let actionSheet = NewYorkAlertController(title: "Payment", message: alert_table_price+alert_booking_price+alert_deposit, style: .actionSheet)
+                        let actionSheet = NewYorkAlertController(title: "Payment", message: alert_table_price+alert_deposit, style: .actionSheet)
                         
                         actionSheet.addImage(UIImage(named: "payment_1"))
                         
                         let apple_pay = NewYorkButton(title: "Apple pay : "+alert_pay_price, style: .default) { _ in
                             // print("camera clicked done")
-
+                            
                             self.apple_pay_in_bookit(str_club_name: club_name,
                                                      str_table_name: table_name,
                                                      str_table_price: final_pay_to_club)
                             
-                         }
+                        }
                         
-                        let cwd = NewYorkButton(title: "Credit / Debit card : "+alert_pay_price, style: .default) { _ in
+                        let cwd = NewYorkButton(title: "Credit / Debit card : "+alert_pay_price, style: .default) { [self] _ in
                             
                             // self.open_card_popup(final_payment_for_card_payment: final_pay_to_club)
-                            debugPrint("Implement Square payment")
+                            debugPrint("Implement Square payment 1")
+                            // didRequestPayWithCard()
                             
-                         }
+                            self.paymentForSquare = Double(final_pay_to_club)
+                            startCardEntry()
+                        }
                         
-                                                
+                        
                         let cancel = NewYorkButton(title: "Dismiss", style: .cancel)
                         
                         actionSheet.addButtons([apple_pay,cwd, cancel])
                         
                         self.present(actionSheet, animated: true)
-                     
+                        
                     }
                     
                     
@@ -331,7 +344,7 @@ class BookingVC: UIViewController {
     
     @objc func open_card_popup(final_payment_for_card_payment:String) {
         
-                    
+        
         let settingsVCId = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "card_payment_screen_id") as? card_payment_screen
         
         settingsVCId!.str_price = String(final_payment_for_card_payment)
@@ -341,41 +354,41 @@ class BookingVC: UIViewController {
     
     @objc func apple_pay_in_bookit(
         str_club_name:String,str_table_name:String,str_table_price:String) {
-        
+            
             self.payment_for_apple_pay = String(str_table_price)
             
             let paymentItem = PKPaymentSummaryItem.init(label: str_club_name+"\n"+str_table_name, amount: NSDecimalNumber(value: str_table_price.toDouble()!))
-        
-        // for cards
+            
+            // for cards
             let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
-        
-        // check user did payment
+            
+            // check user did payment
             if PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentNetworks) {
-            
-            // if user make payment
-            let request = PKPaymentRequest()
-            request.currencyCode = "USD" // 1
-            request.countryCode = "US" // 2
                 
-            request.merchantIdentifier = merchant_id // 3
-
-            request.merchantCapabilities = PKMerchantCapability.capability3DS // 4
-            request.supportedNetworks = paymentNetworks // 5
-            request.paymentSummaryItems = [paymentItem] // 6
-            
-            
-            guard let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: request) else {
-                displayDefaultAlert(title: "Error", message: "Unable to present Apple Pay authorization.")
-                return
+                // if user make payment
+                let request = PKPaymentRequest()
+                request.currencyCode = "USD" // 1
+                request.countryCode = "US" // 2
+                
+                request.merchantIdentifier = merchant_id // 3
+                
+                request.merchantCapabilities = PKMerchantCapability.capability3DS // 4
+                request.supportedNetworks = paymentNetworks // 5
+                request.paymentSummaryItems = [paymentItem] // 6
+                
+                
+                guard let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: request) else {
+                    displayDefaultAlert(title: "Error", message: "Unable to present Apple Pay authorization.")
+                    return
+                }
+                paymentVC.delegate = self
+                self.present(paymentVC, animated: true, completion: nil)
+                
+            } else {
+                displayDefaultAlert(title: "Error", message: "Unable to make Apple Pay transaction.")
             }
-            paymentVC.delegate = self
-            self.present(paymentVC, animated: true, completion: nil)
             
-        } else {
-            displayDefaultAlert(title: "Error", message: "Unable to make Apple Pay transaction.")
         }
-        
-    }
     
     func displayDefaultAlert(title: String?, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -386,77 +399,77 @@ class BookingVC: UIViewController {
     
     
     @objc func book_a_table_wb(advanced_payment:Double) {
-      
+        
         // print(self.dict_save_club_info_for_apple_pay as Any)
         // print(self.club_Details as Any)
         
         /*
          Optional({
-             advancePercentage = 20;
-             clubTableId = 81;
-             created = "Jan 3rd, 2023, 9:58 pm";
-             description = "Five premium no cover up to 10 people ";
-             image = "https://bookitweb.com/img/uploads/table/1672801106add_table.png";
-             name = PLATINUM;
-             "profile_picture" = "https://bookitweb.com/img/uploads/users/1672801183add_club_logo.png";
-             seatPrice = 1500;
-             totalSeat = 5;
-             userAddress = "51-07 27th Street";
-             userId = 1336;
-             userName = "Sugar Daddy's Gentlemen\U2019s Club";
+         advancePercentage = 20;
+         clubTableId = 81;
+         created = "Jan 3rd, 2023, 9:58 pm";
+         description = "Five premium no cover up to 10 people ";
+         image = "https://bookitweb.com/img/uploads/table/1672801106add_table.png";
+         name = PLATINUM;
+         "profile_picture" = "https://bookitweb.com/img/uploads/users/1672801183add_club_logo.png";
+         seatPrice = 1500;
+         totalSeat = 5;
+         userAddress = "51-07 27th Street";
+         userId = 1336;
+         userName = "Sugar Daddy's Gentlemen\U2019s Club";
          })
          Optional({
-             AVGRating = "";
-             Fri = 0;
-             Mon = 0;
-             Sat = 0;
-             StripeStatus = "";
-             Sun = 0;
-             Thu = 0;
-             Tue = 0;
-             Userimage = "https://bookitweb.com/img/uploads/users/1672801183add_club_logo.png";
-             Wed = 0;
-             about = "Gentlemen\U2019s Club";
-             address = "51-07 27th Street";
-             banner = "https://bookitweb.com/img/uploads/users/1672801191edit_club_banner.png";
-             city = 11101;
-             closeTime = "04:00 AM";
-             contactNumber = "718-706-9600";
-             currentPaymentOption = WIRED;
-             device = "";
-             deviceToken = "";
-             email = "";
-             fullName = "Sugar Daddy's Gentlemen\U2019s Club";
-             latitude = "";
-             longitude = "";
-             openTime = "08:00 PM";
-             stripeAccountNo = "";
-             totalLiked = 0;
-             userId = 1336;
-             youliked = No;
-             zipCode = 11101;
+         AVGRating = "";
+         Fri = 0;
+         Mon = 0;
+         Sat = 0;
+         StripeStatus = "";
+         Sun = 0;
+         Thu = 0;
+         Tue = 0;
+         Userimage = "https://bookitweb.com/img/uploads/users/1672801183add_club_logo.png";
+         Wed = 0;
+         about = "Gentlemen\U2019s Club";
+         address = "51-07 27th Street";
+         banner = "https://bookitweb.com/img/uploads/users/1672801191edit_club_banner.png";
+         city = 11101;
+         closeTime = "04:00 AM";
+         contactNumber = "718-706-9600";
+         currentPaymentOption = WIRED;
+         device = "";
+         deviceToken = "";
+         email = "";
+         fullName = "Sugar Daddy's Gentlemen\U2019s Club";
+         latitude = "";
+         longitude = "";
+         openTime = "08:00 PM";
+         stripeAccountNo = "";
+         totalLiked = 0;
+         userId = 1336;
+         youliked = No;
+         zipCode = 11101;
          */
-          
+        
         
         
         if let person = UserDefaults.standard.value(forKey: "keyLoginFullData") as? [String:Any] {
             // print(person as Any)
-
+            
             let x : Int = person["userId"] as! Int
             let myString = String(x)
-
+            
             let x_2 : Int = (self.dict_get_table_Details["userId"] as! Int)
             let myString_2 = String(x_2)
-
+            
             let x_3 : Int = (self.dict_get_table_Details["clubTableId"] as! Int)
             let myString_3 = String(x_3)
-
+            
             let x_4 : Int = (self.dict_get_table_Details["totalSeat"] as! Int)
             let myString_4 = String(x_4)
-
+            
             let x_5 : Int = (self.dict_get_table_Details["seatPrice"] as! Int)
             let myString_5 = String(x_5)
-
+            
             let params = customer_book_a_table(action   : "addbooking",
                                                userId       : myString,
                                                clubId       : myString_2,
@@ -470,30 +483,30 @@ class BookingVC: UIViewController {
                                                advancePayment : "\(advanced_payment)",
                                                fullPaymentStatus: String("2") // half payment
             )
-
+            
             print(params as Any)
-
+            
             AF.request(APPLICATION_BASE_URL,
                        method: .post,
                        parameters: params,
                        encoder: JSONParameterEncoder.default).responseJSON { response in
                 // debugPrint(response.result)
-
+                
                 switch response.result {
                 case let .success(value):
-
+                    
                     let JSON = value as! NSDictionary
                     print(JSON as Any)
-
+                    
                     var strSuccess : String!
                     strSuccess = (JSON["status"]as Any as? String)?.lowercased()
                     print(strSuccess as Any)
                     if strSuccess == String("success") {
                         print("yes")
-
+                        
                         let x : Int = JSON["bookingId"] as! Int
                         let myString_bid = String(x)
-
+                        
                         //
                         // ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
                         self.update_payment_after_stripe(str_booking_id: String(myString_bid),
@@ -504,31 +517,31 @@ class BookingVC: UIViewController {
                         
                     } else {
                         print("no")
-                          ERProgressHud.sharedInstance.hide()
-
+                        ERProgressHud.sharedInstance.hide()
+                        
                         var strSuccess2 : String!
                         strSuccess2 = JSON["msg"]as Any as? String
-
+                        
                         if strSuccess2 == "Your Account is Inactive. Please contact admin.!!" ||
                             strSuccess2 == "Your Account is Inactive. Please contact admin.!" ||
                             strSuccess2 == "Your Account is Inactive. Please contact admin." {
-
-
+                            
+                            
                         } else {
-
+                            
                             let alert = UIAlertController(title: String(strSuccess).uppercased(), message: String(strSuccess2), preferredStyle: .alert)
-
+                            
                             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-
+                            
                             self.present(alert, animated: true)
-
+                            
                         }
                     }
-
+                    
                 case let .failure(error):
                     print(error)
                     ERProgressHud.sharedInstance.hide()
-
+                    
                     // Utils.showAlert(alerttitle: SERVER_ISSUE_TITLE, alertmessage: SERVER_ISSUE_MESSAGE, ButtonTitle: "Ok", viewController: self)
                 }
             }
@@ -545,7 +558,7 @@ class BookingVC: UIViewController {
         
         
         
-//        self.view.endEditing(true)
+        //        self.view.endEditing(true)
         
         
         if let person = UserDefaults.standard.value(forKey: "keyLoginFullData") as? [String:Any] {
@@ -555,10 +568,10 @@ class BookingVC: UIViewController {
             let myString = String(x)
             
             let params = Bookit.update_payment_after_stripe_webservice(action: "updatepayment",
-                                                     userId: String(myString),
-                                                     bookingId: String(str_booking_id),
-                                                     fullPaymentStatus: String(str_payment_Status),
-                                                     transactionId: String(str_transaction_id))
+                                                                       userId: String(myString),
+                                                                       bookingId: String(self.storeSquarePaymentId),
+                                                                       fullPaymentStatus: String(str_payment_Status),
+                                                                       transactionId: String(str_transaction_id))
             
             print(params as Any)
             
@@ -647,7 +660,7 @@ class BookingVC: UIViewController {
     @objc func confirm_payment(str_total_price_show:String) {
         
         let push = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "BookingSuccessVC") as? BookingSuccessVC
-         push!.str_booked_price = str_total_price_show
+        push!.str_booked_price = str_total_price_show
         self.navigationController?.pushViewController(push!, animated: true)
     }
     
@@ -663,127 +676,295 @@ class BookingVC: UIViewController {
         
         if let person = UserDefaults.standard.value(forKey: "keyLoginFullData") as? [String:Any] {
             
-        let myDouble = Double(payment_to_cwa)
-        
-        let url = URL(string: "https://cwamerchantservices.transactiongateway.com/api/transact.php")!
-        var request = URLRequest(url: url)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.httpMethod = "POST"
-        
-        let parameters: [String: Any] = [
-            "zip"       : (person["zipCode"] as! String),
-            "country"   : (person["countryId"] as! String),
-            "amount"    : myDouble!,
-            "firstname" : String(get_card_name),
-            "cvv"       : String(get_card_cvv),
-            "city"      : (person["city"] as! String),
-            "address1"  : (person["address"] as! String),
-            "type"      : "sale",
-            "lastname"  : String(get_card_name),
-            "security_key"  : cwa_payment_api_key,
-            "phone"     : (person["contactNumber"] as! String),
-            "state"     : (person["stateId"] as! String),
-            "ccexp"     : String(get_card_month)+String(get_card_year),
-            "ccnumber"  : String(get_card_number),
-        ]
-        
-        request.httpBody = parameters.percentEncoded()
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard
-                let data = data,
-                let response = response as? HTTPURLResponse,
-                error == nil
-            else {                                                               // check for fundamental networking error
-                print("error", error ?? URLError(.badServerResponse))
-                return
-            }
+            let myDouble = Double(payment_to_cwa)
             
-            guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
-                print("statusCode should be 2xx, but is \(response.statusCode)")
-                print("response = \(response)")
-                return
-            }
+            let url = URL(string: "https://cwamerchantservices.transactiongateway.com/api/transact.php")!
+            var request = URLRequest(url: url)
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            request.httpMethod = "POST"
             
-            // do whatever you want with the `data`, e.g.:
+            let parameters: [String: Any] = [
+                "zip"       : (person["zipCode"] as! String),
+                "country"   : (person["countryId"] as! String),
+                "amount"    : myDouble!,
+                "firstname" : String(get_card_name),
+                "cvv"       : String(get_card_cvv),
+                "city"      : (person["city"] as! String),
+                "address1"  : (person["address"] as! String),
+                "type"      : "sale",
+                "lastname"  : String(get_card_name),
+                "security_key"  : cwa_payment_api_key,
+                "phone"     : (person["contactNumber"] as! String),
+                "state"     : (person["stateId"] as! String),
+                "ccexp"     : String(get_card_month)+String(get_card_year),
+                "ccnumber"  : String(get_card_number),
+            ]
             
-            do {
-                let responseObject = try JSONDecoder().decode(ResponseObject<Foo>.self, from: data)
-                print(responseObject)
-            } catch {
-                print(error) // parsing error
+            request.httpBody = parameters.percentEncoded()
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard
+                    let data = data,
+                    let response = response as? HTTPURLResponse,
+                    error == nil
+                else {                                                               // check for fundamental networking error
+                    print("error", error ?? URLError(.badServerResponse))
+                    return
+                }
                 
-                if let responseString = String(data: data, encoding: .utf8) {
-                    print("responseString = \(responseString)")
-                    print(type(of: "\(responseString)"))
+                guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+                    print("statusCode should be 2xx, but is \(response.statusCode)")
+                    print("response = \(response)")
+                    return
+                }
+                
+                // do whatever you want with the `data`, e.g.:
+                
+                do {
+                    let responseObject = try JSONDecoder().decode(ResponseObject<Foo>.self, from: data)
+                    print(responseObject)
+                } catch {
+                    print(error) // parsing error
                     
-                    let ch = Character("&")
-                    let result = "\(responseString)".split(separator: ch)
-                    
-                    for _ in 0..<result.count {
+                    if let responseString = String(data: data, encoding: .utf8) {
+                        print("responseString = \(responseString)")
+                        print(type(of: "\(responseString)"))
                         
-                        print(result)
-                        print(result[0])
+                        let ch = Character("&")
+                        let result = "\(responseString)".split(separator: ch)
                         
-                        let ch_2 = Character("=")
-                        var result_2 = result[0].split(separator: ch_2)
-                        print(result_2)
-                        
-                        if "\(result_2[1])" == "1" {
-                            print("all details are perfect")
+                        for _ in 0..<result.count {
                             
-                            DispatchQueue.main.async {
-                                // send data to evs server
+                            print(result)
+                            print(result[0])
+                            
+                            let ch_2 = Character("=")
+                            var result_2 = result[0].split(separator: ch_2)
+                            print(result_2)
+                            
+                            if "\(result_2[1])" == "1" {
+                                print("all details are perfect")
                                 
-                                ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
-                                self.book_a_table_wb(advanced_payment: myDouble!)
+                                DispatchQueue.main.async {
+                                    // send data to evs server
+                                    
+                                    ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+                                    self.book_a_table_wb(advanced_payment: myDouble!)
+                                }
+                                
+                                
+                                return
+                            } else {
+                                print("something went wrong")
+                                
+                                let ch_3 = Character("=")
+                                let result_3 = result[1].split(separator: ch_3)
+                                print(result_3)
+                                
+                                DispatchQueue.main.async {
+                                    
+                                    ERProgressHud.sharedInstance.hide()
+                                    
+                                    let alert = UIAlertController(title: String("Alert").uppercased(), message: "\(result_3[1])", preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                                    self.present(alert, animated: true)
+                                    
+                                }
+                                
+                                
+                                
+                                return
+                                
                             }
-                            
-                            
-                            return
-                        } else {
-                            print("something went wrong")
-                            
-                            let ch_3 = Character("=")
-                            let result_3 = result[1].split(separator: ch_3)
-                            print(result_3)
-                            
-                            DispatchQueue.main.async {
-                                
-                                ERProgressHud.sharedInstance.hide()
-                                
-                                let alert = UIAlertController(title: String("Alert").uppercased(), message: "\(result_3[1])", preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                                self.present(alert, animated: true)
-                                
-                                    }
-                            
-                            
-                            
-                            return
                             
                         }
                         
+                        
+                        //
+                    } else {
+                        print("unable to parse response as string")
                     }
-                    
-                    
-                    //
-                } else {
-                    print("unable to parse response as string")
                 }
             }
+            
+            task.resume()
+            
+            // delete this after uncomment
+            /*let myDouble = Double(payment_to_cwa)
+             self.book_a_table_wb(advanced_payment: myDouble!)*/
         }
-        
-        task.resume()
-        
-        // delete this after uncomment
-        /*let myDouble = Double(payment_to_cwa)
-         self.book_a_table_wb(advanced_payment: myDouble!)*/
     }
+    
+    
+    
+    
+    
+    // # MARK:- PAYMENT VIA SQUARE -
+    @objc func startCardEntry() {
+        let defaultTheme = SQIPTheme() // Use the default appearance
+        do {
+            let cardEntryViewController = try SQIPCardEntryViewController(theme: defaultTheme)
+            cardEntryViewController.delegate = self
+            present(cardEntryViewController, animated: true, completion: nil)
+        } catch {
+            print("Failed to initialize card entry view controller: \(error)")
+        }
+    }
+    
+    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didCompleteWith status: SQIPCardEntryCompletionStatus) {
+        cardEntryViewController.dismiss(animated: true) {
+            switch status {
+            case .success:
+                print("Card entry was successful!")
+            case .canceled:
+                print("Card entry was canceled.")
+            @unknown default:
+                fatalError("Unhandled status: \(status)")
+            }
+        }
+    }
+    
+    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didObtain cardDetails: SQIPCardDetails, completionHandler: @escaping ((any Error)?) -> Void) {
+        let cardNonce = cardDetails.nonce
+        print("Nonce received: \(cardNonce)")
+        processPayment(with: "\(cardNonce)")
+        completionHandler(nil) // Indicate success
+        
+        
+    }
+    
+    func processPayment(with nonce: String) {
+        let url = URL(string: SQUARE_PAYMENT_BASE_URL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(SQUARE_PAYMENT_ACCESS_TOKEN)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        
+        var amountIs = Double(self.paymentForSquare) * 100
+        // Payment payload
+        let paymentData: [String: Any] = [
+            "source_id": nonce,
+            "idempotency_key": UUID().uuidString, // Unique key for each request
+            "amount_money": [
+                "amount": amountIs, // Amount in cents (100 = $1.00)
+                "currency": "USD"
+            ]
+        ]
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: paymentData, options: [])
+        } catch {
+            print("Failed to serialize payment data: \(error)")
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error making payment: \(error)")
+                return
+            }
+
+            guard let data = data, let httpResponse = response as? HTTPURLResponse else {
+                print("No data or response received")
+                return
+            }
+
+            /*if httpResponse.statusCode == 200 {
+                print("Payment successful!")
+                if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+                    print("Payment response: \(json)")
+                    
+                    // call api
+                    ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+                    self.book_a_table_wb(advanced_payment: self.paymentForSquare)
+                }
+            } else {
+                print("Payment failed with status code: \(httpResponse.statusCode)")
+            }*/
+            if httpResponse.statusCode == 200 {
+                       print("Payment successful!")
+                       do {
+                           // Parse JSON response
+                           if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                              let payment = json["payment"] as? [String: Any],
+                              let paymentId = payment["id"] as? String {
+                               print("Payment ID: \(paymentId)")
+                               self.storeSquarePaymentId = "\(paymentId)"
+                               
+                               // Call API with payment ID
+                               DispatchQueue.main.async {
+                                   ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+                                   self.book_a_table_wb(advanced_payment: self.paymentForSquare)
+                               }
+                           } else {
+                               print("Failed to parse 'payment' or 'id' from response")
+                           }
+                       } catch {
+                           print("Failed to parse JSON response: \(error)")
+                       }
+                   } else {
+                       print("Payment failed with status code: \(httpResponse.statusCode)")
+                   }
+        }.resume()
+    }
+    
+    
+    
+    
+    
+}
+
+/*extension BookingVC {
+    func didRequestPayWithCard() {
+        dismiss(animated: true) {
+            let vc = self.makeCardEntryViewController()
+            vc.delegate = self
+
+            let nc = UINavigationController(rootViewController: vc)
+            self.present(nc, animated: true, completion: nil)
+        }
     }
 }
 
+import SquareInAppPaymentsSDK
+extension BookingVC {
+    func makeCardEntryViewController() -> SQIPCardEntryViewController {
+        let cardEntry = SQIPCardEntryViewController(theme: SQIPTheme())
+        cardEntry.collectPostalCode = false
+        cardEntry.delegate = self
+        return cardEntry
+    }
+}
+
+//Handle the card entry success or failure from the card entry form
+extension BookingVC: SQIPCardEntryViewControllerDelegate {
+    func cardEntryViewController(
+        _: SQIPCardEntryViewController,
+        didCompleteWith _: SQIPCardEntryCompletionStatus
+    ) {
+        // Implemented in step 4.
+    }
+
+    func cardEntryViewController(
+        _: SQIPCardEntryViewController,
+        didObtain _: SQIPCardDetails,
+        completionHandler _: @escaping (Error?) -> Void
+    ) {
+        // Implemented in step 4.
+    }
+}
+
+// MARK: - UINavigationControllerDelegate
+
+extension BookingVC: UINavigationControllerDelegate {
+   func navigationControllerSupportedInterfaceOrientations(
+       _: UINavigationController
+   ) -> UIInterfaceOrientationMask {
+       return .portrait
+   }
+}*/
 
 //MARK:- TABLE VIEW -
 extension BookingVC: UITableViewDataSource, FSCalendarDelegate,FSCalendarDataSource {

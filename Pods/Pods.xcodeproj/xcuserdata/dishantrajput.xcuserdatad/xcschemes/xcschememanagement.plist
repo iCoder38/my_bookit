@@ -134,6 +134,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SquareBuyerVerificationSDK.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SquareInAppPaymentsSDK.xcscheme</key>
 		<dict>
 			<key>isShown</key>
