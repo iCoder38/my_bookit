@@ -13,6 +13,7 @@ import Firebase
 import UserNotifications
 import AudioToolbox
 //import Stripe
+import SquareInAppPaymentsSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenterDelegate , MessagingDelegate {
@@ -22,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
+        
+        SQIPInAppPaymentsSDK.squareApplicationID = "sandbox-sq0idb-dDeAQWxRvZonJDQlxsr9Lg"
         
 //         Stripe.setDefaultPublishableKey(STRIPE_PROCESS)
         

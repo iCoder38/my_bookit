@@ -124,6 +124,7 @@ PODS:
     - SDWebImage/Core (= 5.15.5)
   - SDWebImage/Core (5.15.5)
   - SPConfetti (1.4.0)
+  - SquareInAppPaymentsSDK (1.6.3)
   - SwiftGifOrigin (1.7.0)
   - SwiftyJSON (5.0.1)
 
@@ -141,6 +142,7 @@ DEPENDENCIES:
   - QCropper
   - SDWebImage
   - SPConfetti
+  - SquareInAppPaymentsSDK
   - SwiftGifOrigin
   - SwiftyJSON
 
@@ -169,6 +171,7 @@ SPEC REPOS:
     - QCropper
     - SDWebImage
     - SPConfetti
+    - SquareInAppPaymentsSDK
     - SwiftGifOrigin
     - SwiftyJSON
 
@@ -196,9 +199,10 @@ SPEC CHECKSUMS:
   QCropper: aef6bad1e683e62b501fb8258359ccd10c68b4f2
   SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
   SPConfetti: 4ba720ff652d960f59c3e4eadee2c0c3ef6ce9a4
+  SquareInAppPaymentsSDK: 4d7f1e984fee5d8d7dbd44a67661ca1aedee7f76
   SwiftGifOrigin: fbd6cf37afcfcf97a5c3db996ddc0492e5c5c145
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 0d153e1f7820b0dcc2e6899ac658dee5cfadfe5d
+PODFILE CHECKSUM: 26dd889ef5954b0c546721935dfe5fcd2e5600f6
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

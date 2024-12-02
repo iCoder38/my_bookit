@@ -7,18 +7,9 @@ target 'Bookit' do
 
   # Pods for Bookit
 
-  target 'BookitTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  pod 'FSCalendar'
 
-  target 'BookitUITests' do
-    # Pods for testing
-  end
-
-pod 'FSCalendar'
-
-# webservice
+  # webservice
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'SDWebImage'
@@ -31,10 +22,31 @@ pod 'FSCalendar'
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
-#  pod 'ChameleonFramework'
+  # pod 'ChameleonFramework'
   pod 'Firebase/Analytics'
   pod 'Firebase/Messaging'
   pod 'Firebase/Analytics'
-#  pod 'Stripe', '19.0.1'
-  
+  # pod 'Stripe', '19.0.1'
+  pod 'SquareInAppPaymentsSDK'
+
+  target 'BookitTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'BookitUITests' do
+    # Pods for testing
+  end
+
 end
+
+# Post-install script to avoid duplicate embedding of frameworks
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = nil
+      config.build_settings['CODE_SIGNING_REQUIRED'] = "NO"
+    end
+  end
+end
+

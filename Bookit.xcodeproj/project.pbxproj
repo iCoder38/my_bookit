@@ -60,7 +60,9 @@
 		18D4A2A828474A9100C03003 /* payment_options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D4A2A728474A9100C03003 /* payment_options.swift */; };
 		18E7295A27CE33E7003ED8DA /* earnings_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E7295927CE33E7003ED8DA /* earnings_new.swift */; };
 		18E7295C27CE58CE003ED8DA /* Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E7295B27CE58CE003ED8DA /* Custom.swift */; };
-		6785D90C2905D8AD941BB70B /* Pods_Bookit_BookitUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ECABB2DFCE77C6A727B717F3 /* Pods_Bookit_BookitUITests.framework */; };
+		2EF7A02D8E3AD12603701756 /* Pods_Bookit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7283295F04F6AE11DD25A6C0 /* Pods_Bookit.framework */; };
+		51BF0A1C1D5B87B7AE5563CE /* Pods_Bookit_BookitUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B4DE9151E78EE6ABFBE5E1 /* Pods_Bookit_BookitUITests.framework */; };
+		7800123E0E9D35034F071D7A /* Pods_BookitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 922AA78267A324D0AA81B673 /* Pods_BookitTests.framework */; };
 		89581F3E27915794002F8B20 /* Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89581F3D27915794002F8B20 /* Parameter.swift */; };
 		89581F412791A24B002F8B20 /* ERProgressHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89581F402791A24B002F8B20 /* ERProgressHud.swift */; };
 		896FC432276DF48000B3139E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896FC431276DF48000B3139E /* AppDelegate.swift */; };
@@ -121,10 +123,8 @@
 		89D4719E277ADF7A0066F5C6 /* NPBookingDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D4719D277ADF7A0066F5C6 /* NPBookingDetailTableViewCell.swift */; };
 		89D471A1277B2F7B0066F5C6 /* NPEarningVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D471A0277B2F7B0066F5C6 /* NPEarningVC.swift */; };
 		89D471A3277B2FB50066F5C6 /* NPEarningTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D471A2277B2FB50066F5C6 /* NPEarningTableViewCell.swift */; };
-		B68E5D69F377BFDFE9D94EC3 /* Pods_Bookit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CC8285E09126AECCC12F3A6 /* Pods_Bookit.framework */; };
 		B98BDBB929D42A2400364626 /* card_payment_screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98BDBB829D42A2400364626 /* card_payment_screen.swift */; };
 		B9C8F84C29D310950055023C /* customer_complete_profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8F84B29D310950055023C /* customer_complete_profile.swift */; };
-		FCA7E735903CB4B744BC18BF /* Pods_BookitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91EB4AB36EF446A5E6824AE2 /* Pods_BookitTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,7 +145,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		14890FC086A2FDB2E426FF1E /* Pods-BookitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookitTests.release.xcconfig"; path = "Target Support Files/Pods-BookitTests/Pods-BookitTests.release.xcconfig"; sourceTree = "<group>"; };
 		1809F87827FD667000FBB07C /* upcoming_bookings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = upcoming_bookings.swift; sourceTree = "<group>"; };
 		180A7D622798263800543088 /* GiveReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiveReview.swift; sourceTree = "<group>"; };
 		180A7D6427982BEB00543088 /* success3.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = success3.gif; sourceTree = "<group>"; };
@@ -200,11 +199,12 @@
 		18D4A2A728474A9100C03003 /* payment_options.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = payment_options.swift; sourceTree = "<group>"; };
 		18E7295927CE33E7003ED8DA /* earnings_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = earnings_new.swift; sourceTree = "<group>"; };
 		18E7295B27CE58CE003ED8DA /* Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Custom.swift; sourceTree = "<group>"; };
-		286EDE5E21E398FDF6421D4D /* Pods-Bookit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookit.release.xcconfig"; path = "Target Support Files/Pods-Bookit/Pods-Bookit.release.xcconfig"; sourceTree = "<group>"; };
-		2CC8285E09126AECCC12F3A6 /* Pods_Bookit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bookit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3CC91E0869F8B2A729E1DC31 /* Pods-Bookit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookit.debug.xcconfig"; path = "Target Support Files/Pods-Bookit/Pods-Bookit.debug.xcconfig"; sourceTree = "<group>"; };
-		62BF797552F40345DCD358AD /* Pods-Bookit-BookitUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookit-BookitUITests.debug.xcconfig"; path = "Target Support Files/Pods-Bookit-BookitUITests/Pods-Bookit-BookitUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		68C4EFAA3C53C357BFA9296B /* Pods-Bookit-BookitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookit-BookitUITests.release.xcconfig"; path = "Target Support Files/Pods-Bookit-BookitUITests/Pods-Bookit-BookitUITests.release.xcconfig"; sourceTree = "<group>"; };
+		29B4DE9151E78EE6ABFBE5E1 /* Pods_Bookit_BookitUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bookit_BookitUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		369B1DEB546D9B2404EFC34E /* Pods-Bookit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookit.debug.xcconfig"; path = "Target Support Files/Pods-Bookit/Pods-Bookit.debug.xcconfig"; sourceTree = "<group>"; };
+		390C700DAEB6FF419087F8C9 /* Pods-BookitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookitTests.debug.xcconfig"; path = "Target Support Files/Pods-BookitTests/Pods-BookitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		71B876F43BF3A0FA2BF07215 /* Pods-BookitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookitTests.release.xcconfig"; path = "Target Support Files/Pods-BookitTests/Pods-BookitTests.release.xcconfig"; sourceTree = "<group>"; };
+		7283295F04F6AE11DD25A6C0 /* Pods_Bookit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bookit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		745C9F64F10B8E09163F8E46 /* Pods-Bookit-BookitUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookit-BookitUITests.debug.xcconfig"; path = "Target Support Files/Pods-Bookit-BookitUITests/Pods-Bookit-BookitUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		89581F3D27915794002F8B20 /* Parameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parameter.swift; sourceTree = "<group>"; };
 		89581F402791A24B002F8B20 /* ERProgressHud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ERProgressHud.swift; sourceTree = "<group>"; };
 		896FC42E276DF48000B3139E /* Bookit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bookit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -272,11 +272,12 @@
 		89D4719D277ADF7A0066F5C6 /* NPBookingDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPBookingDetailTableViewCell.swift; sourceTree = "<group>"; };
 		89D471A0277B2F7B0066F5C6 /* NPEarningVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPEarningVC.swift; sourceTree = "<group>"; };
 		89D471A2277B2FB50066F5C6 /* NPEarningTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPEarningTableViewCell.swift; sourceTree = "<group>"; };
-		91EB4AB36EF446A5E6824AE2 /* Pods_BookitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		922AA78267A324D0AA81B673 /* Pods_BookitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B98BDBB829D42A2400364626 /* card_payment_screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = card_payment_screen.swift; sourceTree = "<group>"; };
 		B9C8F84B29D310950055023C /* customer_complete_profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customer_complete_profile.swift; sourceTree = "<group>"; };
-		E595C228F298252CF84156F0 /* Pods-BookitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BookitTests.debug.xcconfig"; path = "Target Support Files/Pods-BookitTests/Pods-BookitTests.debug.xcconfig"; sourceTree = "<group>"; };
-		ECABB2DFCE77C6A727B717F3 /* Pods_Bookit_BookitUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bookit_BookitUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9EF5BC32CFDE22800251045 /* SquareInAppPaymentsSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = SquareInAppPaymentsSDK.xcframework; sourceTree = "<group>"; };
+		D6991C5EAE631AD12D20A2EF /* Pods-Bookit-BookitUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookit-BookitUITests.release.xcconfig"; path = "Target Support Files/Pods-Bookit-BookitUITests/Pods-Bookit-BookitUITests.release.xcconfig"; sourceTree = "<group>"; };
+		FDFFEAAD1A637AB4CC69A67F /* Pods-Bookit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bookit.release.xcconfig"; path = "Target Support Files/Pods-Bookit/Pods-Bookit.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,7 +285,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B68E5D69F377BFDFE9D94EC3 /* Pods_Bookit.framework in Frameworks */,
+				2EF7A02D8E3AD12603701756 /* Pods_Bookit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,7 +293,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCA7E735903CB4B744BC18BF /* Pods_BookitTests.framework in Frameworks */,
+				7800123E0E9D35034F071D7A /* Pods_BookitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +301,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6785D90C2905D8AD941BB70B /* Pods_Bookit_BookitUITests.framework in Frameworks */,
+				51BF0A1C1D5B87B7AE5563CE /* Pods_Bookit_BookitUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,12 +490,13 @@
 			path = earnings_new;
 			sourceTree = "<group>";
 		};
-		77D908EB138FD6332B1BE160 /* Frameworks */ = {
+		82A0A7ABAD63A1050BEC03C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2CC8285E09126AECCC12F3A6 /* Pods_Bookit.framework */,
-				ECABB2DFCE77C6A727B717F3 /* Pods_Bookit_BookitUITests.framework */,
-				91EB4AB36EF446A5E6824AE2 /* Pods_BookitTests.framework */,
+				B9EF5BC42CFDE22800251045 /* XCFrameworks */,
+				7283295F04F6AE11DD25A6C0 /* Pods_Bookit.framework */,
+				29B4DE9151E78EE6ABFBE5E1 /* Pods_Bookit_BookitUITests.framework */,
+				922AA78267A324D0AA81B673 /* Pods_BookitTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -532,7 +534,7 @@
 				896FC451276DF48B00B3139E /* BookitUITests */,
 				896FC42F276DF48000B3139E /* Products */,
 				B3C4EC61C5BAA66E05094300 /* Pods */,
-				77D908EB138FD6332B1BE160 /* Frameworks */,
+				82A0A7ABAD63A1050BEC03C2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -931,12 +933,12 @@
 		B3C4EC61C5BAA66E05094300 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3CC91E0869F8B2A729E1DC31 /* Pods-Bookit.debug.xcconfig */,
-				286EDE5E21E398FDF6421D4D /* Pods-Bookit.release.xcconfig */,
-				62BF797552F40345DCD358AD /* Pods-Bookit-BookitUITests.debug.xcconfig */,
-				68C4EFAA3C53C357BFA9296B /* Pods-Bookit-BookitUITests.release.xcconfig */,
-				E595C228F298252CF84156F0 /* Pods-BookitTests.debug.xcconfig */,
-				14890FC086A2FDB2E426FF1E /* Pods-BookitTests.release.xcconfig */,
+				369B1DEB546D9B2404EFC34E /* Pods-Bookit.debug.xcconfig */,
+				FDFFEAAD1A637AB4CC69A67F /* Pods-Bookit.release.xcconfig */,
+				745C9F64F10B8E09163F8E46 /* Pods-Bookit-BookitUITests.debug.xcconfig */,
+				D6991C5EAE631AD12D20A2EF /* Pods-Bookit-BookitUITests.release.xcconfig */,
+				390C700DAEB6FF419087F8C9 /* Pods-BookitTests.debug.xcconfig */,
+				71B876F43BF3A0FA2BF07215 /* Pods-BookitTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -957,6 +959,15 @@
 			path = customer_complete_profile;
 			sourceTree = "<group>";
 		};
+		B9EF5BC42CFDE22800251045 /* XCFrameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B9EF5BC32CFDE22800251045 /* SquareInAppPaymentsSDK.xcframework */,
+			);
+			name = XCFrameworks;
+			path = Pods/SquareInAppPaymentsSDK/XCFrameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -964,11 +975,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 896FC458276DF48B00B3139E /* Build configuration list for PBXNativeTarget "Bookit" */;
 			buildPhases = (
-				B89DA1B58A0A35273C942008 /* [CP] Check Pods Manifest.lock */,
+				613502199D7009B10FC586E6 /* [CP] Check Pods Manifest.lock */,
 				896FC42A276DF48000B3139E /* Sources */,
 				896FC42B276DF48000B3139E /* Frameworks */,
 				896FC42C276DF48000B3139E /* Resources */,
-				68C35627424B3A7D0E45238E /* [CP] Embed Pods Frameworks */,
+				7F1DB250DB7B9EB3412870C8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -983,7 +994,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 896FC45B276DF48B00B3139E /* Build configuration list for PBXNativeTarget "BookitTests" */;
 			buildPhases = (
-				4B9E2A7746015F111FB1B5C9 /* [CP] Check Pods Manifest.lock */,
+				CB2CF95E026FBF768DB92F2D /* [CP] Check Pods Manifest.lock */,
 				896FC440276DF48B00B3139E /* Sources */,
 				896FC441276DF48B00B3139E /* Frameworks */,
 				896FC442276DF48B00B3139E /* Resources */,
@@ -1002,11 +1013,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 896FC45E276DF48B00B3139E /* Build configuration list for PBXNativeTarget "BookitUITests" */;
 			buildPhases = (
-				A2F79C8B1EA066FFE75B751D /* [CP] Check Pods Manifest.lock */,
+				D6C2A7BAB1EF67949FF85B1C /* [CP] Check Pods Manifest.lock */,
 				896FC44A276DF48B00B3139E /* Sources */,
 				896FC44B276DF48B00B3139E /* Frameworks */,
 				896FC44C276DF48B00B3139E /* Resources */,
-				3DA8F3F407A3B09E673954C6 /* [CP] Embed Pods Frameworks */,
+				2CECABE09E5DD263F15B27BD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1109,7 +1120,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3DA8F3F407A3B09E673954C6 /* [CP] Embed Pods Frameworks */ = {
+		2CECABE09E5DD263F15B27BD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1126,7 +1137,46 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bookit-BookitUITests/Pods-Bookit-BookitUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4B9E2A7746015F111FB1B5C9 /* [CP] Check Pods Manifest.lock */ = {
+		613502199D7009B10FC586E6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Bookit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F1DB250DB7B9EB3412870C8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bookit/Pods-Bookit-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Bookit/Pods-Bookit-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bookit/Pods-Bookit-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CB2CF95E026FBF768DB92F2D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1148,24 +1198,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		68C35627424B3A7D0E45238E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Bookit/Pods-Bookit-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Bookit/Pods-Bookit-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Bookit/Pods-Bookit-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A2F79C8B1EA066FFE75B751D /* [CP] Check Pods Manifest.lock */ = {
+		D6C2A7BAB1EF67949FF85B1C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1181,28 +1214,6 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Bookit-BookitUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B89DA1B58A0A35273C942008 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Bookit-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1479,7 +1490,7 @@
 		};
 		896FC459276DF48B00B3139E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CC91E0869F8B2A729E1DC31 /* Pods-Bookit.debug.xcconfig */;
+			baseConfigurationReference = 369B1DEB546D9B2404EFC34E /* Pods-Bookit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1490,6 +1501,37 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 92TTP9FKM2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BSImagePicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FSCalendar\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseDatabase\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstallations\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMessaging\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GrowingTextView\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/OpalImagePicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/QCropper\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SPConfetti\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftGifOrigin\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/FirebaseAnalytics/AdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/AdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/WithoutAdIdSupport\"",
+					"$(PROJECT_DIR)/Pods/SquareInAppPaymentsSDK/XCFrameworks",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bookit/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bookit.;
@@ -1528,7 +1570,7 @@
 		};
 		896FC45A276DF48B00B3139E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 286EDE5E21E398FDF6421D4D /* Pods-Bookit.release.xcconfig */;
+			baseConfigurationReference = FDFFEAAD1A637AB4CC69A67F /* Pods-Bookit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1539,6 +1581,37 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 92TTP9FKM2;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/BSImagePicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FSCalendar\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseAuth\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseDatabase\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstallations\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMessaging\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GTMSessionFetcher\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GrowingTextView\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/OpalImagePicker\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/QCropper\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SPConfetti\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftGifOrigin\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyJSON\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/leveldb-library\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb\"",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/FirebaseAnalytics/AdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/AdIdSupport\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/GoogleAppMeasurement/WithoutAdIdSupport\"",
+					"$(PROJECT_DIR)/Pods/SquareInAppPaymentsSDK/XCFrameworks",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bookit/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Bookit.;
@@ -1576,7 +1649,7 @@
 		};
 		896FC45C276DF48B00B3139E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E595C228F298252CF84156F0 /* Pods-BookitTests.debug.xcconfig */;
+			baseConfigurationReference = 390C700DAEB6FF419087F8C9 /* Pods-BookitTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1602,7 +1675,7 @@
 		};
 		896FC45D276DF48B00B3139E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 14890FC086A2FDB2E426FF1E /* Pods-BookitTests.release.xcconfig */;
+			baseConfigurationReference = 71B876F43BF3A0FA2BF07215 /* Pods-BookitTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1628,7 +1701,7 @@
 		};
 		896FC45F276DF48B00B3139E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 62BF797552F40345DCD358AD /* Pods-Bookit-BookitUITests.debug.xcconfig */;
+			baseConfigurationReference = 745C9F64F10B8E09163F8E46 /* Pods-Bookit-BookitUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1652,7 +1725,7 @@
 		};
 		896FC460276DF48B00B3139E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 68C4EFAA3C53C357BFA9296B /* Pods-Bookit-BookitUITests.release.xcconfig */;
+			baseConfigurationReference = D6991C5EAE631AD12D20A2EF /* Pods-Bookit-BookitUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

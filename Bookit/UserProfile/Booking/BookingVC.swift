@@ -289,7 +289,8 @@ class BookingVC: UIViewController {
                         
                         let cwd = NewYorkButton(title: "Credit / Debit card : "+alert_pay_price, style: .default) { _ in
                             
-                            self.open_card_popup(final_payment_for_card_payment: final_pay_to_club)
+                            // self.open_card_popup(final_payment_for_card_payment: final_pay_to_club)
+                            debugPrint("Implement Square payment")
                             
                          }
                         

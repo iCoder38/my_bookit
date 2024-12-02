@@ -993,7 +993,7 @@ print(jsonData)
     
     ) {
         
-         
+        
         
         if let person = UserDefaults.standard.value(forKey: "keyLoginFullData") as? [String:Any] {
             
@@ -1001,129 +1001,121 @@ print(jsonData)
                 // send data to evs server
                 ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
             }
-        let myDouble = Double(payment_to_cwa)
-        
-        let url = URL(string: cwa_payment_URL)!
-        var request = URLRequest(url: url)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.httpMethod = "POST"
-        
-        let parameters: [String: Any] = [
-            "zip"       : (person["zipCode"] as! String),
-            "country"   : (person["countryId"] as! String),
-            "amount"    : myDouble!,
-            "firstname" : String(get_card_name),
-            "cvv"       : String(get_card_cvv),
-            "city"      : (person["city"] as! String),
-            "address1"  : (person["address"] as! String),
-            "type"      : "sale",
-            "lastname"  : String(get_card_name),
-            "security_key"  : cwa_payment_api_key,
-            "phone"     : (person["contactNumber"] as! String),
-            "state"     : (person["stateId"] as! String),
-            "ccexp"     : String(get_card_month)+String(get_card_year),
-            "ccnumber"  : String(get_card_number),
-        ]
-        
+            let myDouble = Double(payment_to_cwa)
+            
+            let url = URL(string: cwa_payment_URL)!
+            var request = URLRequest(url: url)
+            request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            request.httpMethod = "POST"
+            
+            let parameters: [String: Any] = [
+                "zip"       : (person["zipCode"] as! String),
+                "country"   : (person["countryId"] as! String),
+                "amount"    : myDouble!,
+                "firstname" : String(get_card_name),
+                "cvv"       : String(get_card_cvv),
+                "city"      : (person["city"] as! String),
+                "address1"  : (person["address"] as! String),
+                "type"      : "sale",
+                "lastname"  : String(get_card_name),
+                "security_key"  : cwa_payment_api_key,
+                "phone"     : (person["contactNumber"] as! String),
+                "state"     : (person["stateId"] as! String),
+                "ccexp"     : String(get_card_month)+String(get_card_year),
+                "ccnumber"  : String(get_card_number),
+            ]
+            
             print(parameters as Any)
             
-        request.httpBody = parameters.percentEncoded()
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard
-                let data = data,
-                let response = response as? HTTPURLResponse,
-                error == nil
-            else {                                                               // check for fundamental networking error
-                print("error", error ?? URLError(.badServerResponse))
-                return
-            }
+            request.httpBody = parameters.percentEncoded()
             
-            guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
-                print("statusCode should be 2xx, but is \(response.statusCode)")
-                print("response = \(response)")
-                return
-            }
-            
-            // do whatever you want with the `data`, e.g.:
-            
-            do {
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                guard
+                    let data = data,
+                    let response = response as? HTTPURLResponse,
+                    error == nil
+                else {                                                               // check for fundamental networking error
+                    print("error", error ?? URLError(.badServerResponse))
+                    return
+                }
                 
-                let responseObject = try JSONDecoder().decode(ResponseObject<Foo>.self, from: data)
-                print(responseObject)
+                guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+                    print("statusCode should be 2xx, but is \(response.statusCode)")
+                    print("response = \(response)")
+                    return
+                }
                 
-                // let json = JSON.init(parseJSON: "\(responseObject)")//parse("\(responseString)")
-                // print(json)
+                // do whatever you want with the `data`, e.g.:
                 
-            } catch {
-                print(error) // parsing error
-                
-                if let responseString = String(data: data, encoding: .utf8) {
-                    print("responseString = \(responseString)")
-                    print(type(of: "\(responseString)"))
+                do {
                     
-                    let ch = Character("&")
-                    let result = "\(responseString)".split(separator: ch)
+                    let responseObject = try JSONDecoder().decode(ResponseObject<Foo>.self, from: data)
+                    print(responseObject)
                     
-                    for _ in 0..<result.count {
+                    // let json = JSON.init(parseJSON: "\(responseObject)")//parse("\(responseString)")
+                    // print(json)
+                    
+                } catch {
+                    print(error) // parsing error
+                    
+                    if let responseString = String(data: data, encoding: .utf8) {
+                        print("responseString = \(responseString)")
+                        print(type(of: "\(responseString)"))
                         
-                        print(result)
-                        print(result[0])
+                        let ch = Character("&")
+                        let result = "\(responseString)".split(separator: ch)
                         
-                        let ch_2 = Character("=")
-                        var result_2 = result[0].split(separator: ch_2)
-                        print(result_2)
-                        
-                        if "\(result_2[1])" == "1" {
-                            print("all details are perfect")
+                        for _ in 0..<result.count {
                             
-                            DispatchQueue.main.async {
-                                // send data to evs server
+                            print(result)
+                            print(result[0])
+                            
+                            let ch_2 = Character("=")
+                            var result_2 = result[0].split(separator: ch_2)
+                            print(result_2)
+                            
+                            if "\(result_2[1])" == "1" {
+                                print("all details are perfect")
                                 
-                                ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
-                                self.book_a_table_wb(advanced_payment: myDouble!)
+                                DispatchQueue.main.async {
+                                    // send data to evs server
+                                    
+                                    ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+                                    self.book_a_table_wb(advanced_payment: myDouble!)
+                                }
+                                
+                                
+                                return
+                            } else {
+                                print("something went wrong")
+                                
+                                let ch_3 = Character("=")
+                                let result_3 = result[1].split(separator: ch_3)
+                                print(result_3)
+                                
+                                DispatchQueue.main.async {
+                                    
+                                    let alert = UIAlertController(title: String("Alert").uppercased(), message: "\(result_3[1])", preferredStyle: .alert)
+                                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                                    self.present(alert, animated: true)
+                                    
+                                }
+                                return
                             }
-                            
-                            
-                            return
-                        } else {
-                            print("something went wrong")
-                            
-                            let ch_3 = Character("=")
-                            let result_3 = result[1].split(separator: ch_3)
-                            print(result_3)
-                            
-                            DispatchQueue.main.async {
-                                
-                                let alert = UIAlertController(title: String("Alert").uppercased(), message: "\(result_3[1])", preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                                self.present(alert, animated: true)
-                                
-                                    }
-                            
-                            
-                            
-                            return
-                            
                         }
-                        
+                    } else {
+                        print("unable to parse response as string")
                     }
-                    
-                    
-                    //
-                } else {
-                    print("unable to parse response as string")
                 }
             }
+            
+            task.resume()
+            
+            // delete this after uncomment
+            /*let myDouble = Double(payment_to_cwa)
+             self.book_a_table_wb(advanced_payment: myDouble!)*/
         }
-        
-        task.resume()
-        
-        // delete this after uncomment
-        /*let myDouble = Double(payment_to_cwa)
-         self.book_a_table_wb(advanced_payment: myDouble!)*/
-    }
     }
     
     @objc func book_a_table_wb(advanced_payment:Double) {
