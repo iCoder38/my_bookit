@@ -162,7 +162,7 @@ class BookingVC: UIViewController, SQIPCardEntryViewControllerDelegate {
                                  get_card_cvv: (payment_details["card_cvv"] as! String),
                                  get_card_year: (payment_details["card_year"] as! String),
                                  get_card_month: (payment_details["card_month"] as! String)*/
-            )
+//            )
             
         }
         
@@ -569,9 +569,9 @@ class BookingVC: UIViewController, SQIPCardEntryViewControllerDelegate {
             
             let params = Bookit.update_payment_after_stripe_webservice(action: "updatepayment",
                                                                        userId: String(myString),
-                                                                       bookingId: String(self.storeSquarePaymentId),
+                                                                       bookingId: String(str_booking_id),
                                                                        fullPaymentStatus: String(str_payment_Status),
-                                                                       transactionId: String(str_transaction_id))
+                                                                       transactionId: String(self.storeSquarePaymentId))
             
             print(params as Any)
             

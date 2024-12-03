@@ -12,109 +12,8 @@ import Alamofire
 import PassKit
 import SquareInAppPaymentsSDK
 
-class BookingDetailsVC: UIViewController {
-    
-//    @objc func startCardEntry() {
-//        let cardEntryViewController = SQIPCardEntryViewController()
-//        cardEntryViewController.delegate = self
-//        present(cardEntryViewController, animated: true, completion: nil)
-//    }
-//
-//    
-//    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didObtain cardDetails: SQIPCardDetails, completionHandler: @escaping ((any Error)?) -> Void) {
-//        let cardNonce = cardDetails.nonce
-//        print("Nonce received: \(cardNonce)")
-//        
-//        // Simulate payment processing
-//        let paymentSuccessful = true // Replace with actual payment processing logic
-//        
-//        if paymentSuccessful {
-//            completionHandler(nil) // No error
-//        } else {
-//            let error = NSError(domain: "com.yourapp.error", code: 1, userInfo: [NSLocalizedDescriptionKey: "Payment processing failed."])
-//            completionHandler(error) // Return an error to indicate failure
-//        }
-//    }
-//
-//    
-//    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didCompleteWith status: SQIPCardEntryCompletionStatus) {
-//        cardEntryViewController.dismiss(animated: true) {
-//            switch status {
-//            case .success:
-//                print("Card entry was successful!")
-//                // Proceed with payment processing or other actions
-//            case .canceled:
-//                print("Card entry was canceled by the user.")
-//                // Handle user cancellation gracefully
-//            @unknown default:
-//                fatalError("Unhandled status: \(status)")
-//            }
-//        }
-//    }
+class BookingDetailsVC: UIViewController, SQIPCardEntryViewControllerDelegate {
 
-
-
-    // Start card entry process
-    /*@objc func startCardEntry() {
-        dismiss(animated: true) {
-                    let vc = self.makeCardEntryViewController()
-                    vc.delegate = self
-
-                    let nc = UINavigationController(rootViewController: vc)
-                    self.present(nc, animated: true, completion: nil)
-                }
-    }
-
-        
-        // Handle completion of the card entry process
-        func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didCompleteWith status: SQIPCardEntryCompletionStatus) {
-            cardEntryViewController.dismiss(animated: true) {
-                switch status {
-                case .success:
-                    print("Card entry was successful!")
-                case .canceled:
-                    print("Card entry was canceled.")
-                @unknown default:
-                    fatalError("Unhandled status.")
-                }
-            }
-        }
-        
-        // Handle obtaining card details
-        func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didObtain cardDetails: SQIPCardDetails, completionHandler: @escaping ((any Error)?) -> Void) {
-            let cardNonce = cardDetails.nonce
-            print("Nonce received: \(cardNonce)")
-            completionHandler(nil) // Proceed with payment
-        }*/
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     var dict_get_booking_details:NSDictionary!
     
     // ***************************************************************** // nav
@@ -174,6 +73,9 @@ class BookingDetailsVC: UIViewController {
 
     var str_pending_amount_to_pay:String!
     var str_save_booking_id_for_pending_payment:String!
+    
+    var paymentForSquare:Double!
+    var storeSquarePaymentId:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -376,7 +278,7 @@ class BookingDetailsVC: UIViewController {
         UserDefaults.standard.set("", forKey: "key_save_card_details")
         UserDefaults.standard.set(nil, forKey: "key_save_card_details")
         
-        didRequestPayWithCard()
+        // didRequestPayWithCard()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -387,12 +289,12 @@ class BookingDetailsVC: UIViewController {
             self.btnBack.isHidden = true
             self.lblNavigationTitle.text = "please wait..."
             
-                self.payment_via_cwa(payment_to_cwa: (payment_details["card_amount"] as! String),
+                /*self.payment_via_cwa(payment_to_cwa: (payment_details["card_amount"] as! String),
                                      get_card_number: (payment_details["card_number"] as! String),
                                      get_card_name: (payment_details["card_name"] as! String),
                                      get_card_cvv: (payment_details["card_cvv"] as! String),
                                      get_card_year: (payment_details["card_year"] as! String),
-                                     get_card_month: (payment_details["card_month"] as! String))
+                                     get_card_month: (payment_details["card_month"] as! String))*/
            
         }
     }
@@ -505,107 +407,7 @@ class BookingDetailsVC: UIViewController {
     }
     
 
-    //MARK: - PAY PENDING PAYMENT -
-    @objc func pay_pending_payment_wb() {
-        
-        // self.view.endEditing(true)
-        // ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
-        
-        if let person = UserDefaults.standard.value(forKey: "keyLoginFullData") as? [String:Any] {
-            // print(person as Any)
-            
-            let x : Int = person["userId"] as! Int
-            let myString = String(x)
-             
-            let params = pay_pending_payment(action: "remainpaymentupdate",
-                                             userId: String(myString),
-                                             bookingId: String(self.str_save_booking_id_for_pending_payment),
-                                             fullPaymentStatus: "1",
-                                             remainPayment:String(self.str_pending_amount_to_pay),
-                                             remainTransactionID:String("cwa_payment"))
-            
-            print(params as Any)
-            
-            AF.request(APPLICATION_BASE_URL,
-                       method: .post,
-                       parameters: params,
-                       encoder: JSONParameterEncoder.default).responseJSON { response in
-                // debugPrint(response.result)
-                
-                switch response.result {
-                case let .success(value):
-                    
-                    let JSON = value as! NSDictionary
-                    print(JSON as Any)
-                    
-                    var strSuccess : String!
-                    strSuccess = (JSON["status"]as Any as? String)?.lowercased()
-                    print(strSuccess as Any)
-                    if strSuccess == String("success") {
-                        print("yes")
-                        
-                        ERProgressHud.sharedInstance.hide()
-                        
-                        var strSuccess2 : String!
-                        strSuccess2 = JSON["msg"]as Any as? String
-                        
-                        let alert = NewYorkAlertController(title: "Success", message: String(strSuccess2), style: .alert)
-                        
-                        alert.addImage(UIImage.gif(name: "success3"))
-                        
-                        let cancel = NewYorkButton(title: "Ok", style: .cancel) { _ in
-                            
-                            self.navigationController?.popViewController(animated: true)
-                            /*let tab_bar = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "tab_bar_controller_id") as? tab_bar_controller
-                            tab_bar?.selectedIndex = 1
-                            self.navigationController?.pushViewController(tab_bar!, animated: false)*/
-                            
-                        }
-                        alert.addButtons([cancel])
-                        
-                        self.present(alert, animated: true)
-                        
-                        /*var get_transaction_id : String!
-                        get_transaction_id = JSON["transactionID"]as Any as? String
-                        
-                        self.update_payment_after_stripe(str_booking_id: String(myString_2),
-                                                         str_payment_Status: "1",
-                                                         str_status_is:"no",
-                                                         str_transaction_id: String(get_transaction_id))*/
-                        
-                        
-                    } else {
-                        print("no")
-                          ERProgressHud.sharedInstance.hide()
-                        
-                        var strSuccess2 : String!
-                        strSuccess2 = JSON["msg"]as Any as? String
-                        
-                        if strSuccess2 == "Your Account is Inactive. Please contact admin.!!" ||
-                            strSuccess2 == "Your Account is Inactive. Please contact admin.!" ||
-                            strSuccess2 == "Your Account is Inactive. Please contact admin." {
-                            
-                            
-                        } else {
-                            
-                            let alert = UIAlertController(title: String(strSuccess).uppercased(), message: String(strSuccess2), preferredStyle: .alert)
-                            
-                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-                            
-                            self.present(alert, animated: true)
-                            
-                        }
-                    }
-                    
-                case let .failure(error):
-                    print(error)
-                    ERProgressHud.sharedInstance.hide()
-                    
-                    // Utils.showAlert(alerttitle: SERVER_ISSUE_TITLE, alertmessage: SERVER_ISSUE_MESSAGE, ButtonTitle: "Ok", viewController: self)
-                }
-            }
-        }
-    }
+   
     
     //
     @objc func apple_pay_in_bookit(
@@ -801,9 +603,221 @@ class BookingDetailsVC: UIViewController {
         }
     }
     
-    //
+    // # MARK:- PAYMENT VIA SQUARE -
+    @objc func startCardEntry() {
+        let defaultTheme = SQIPTheme() // Use the default appearance
+        do {
+            let cardEntryViewController = try SQIPCardEntryViewController(theme: defaultTheme)
+            cardEntryViewController.delegate = self
+            present(cardEntryViewController, animated: true, completion: nil)
+        } catch {
+            print("Failed to initialize card entry view controller: \(error)")
+        }
+    }
+    
+    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didCompleteWith status: SQIPCardEntryCompletionStatus) {
+        cardEntryViewController.dismiss(animated: true) {
+            switch status {
+            case .success:
+                print("Card entry was successful!")
+            case .canceled:
+                print("Card entry was canceled.")
+            @unknown default:
+                fatalError("Unhandled status: \(status)")
+            }
+        }
+    }
+    
+    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didObtain cardDetails: SQIPCardDetails, completionHandler: @escaping ((any Error)?) -> Void) {
+        let cardNonce = cardDetails.nonce
+        print("Nonce received: \(cardNonce)")
+        processPayment(with: "\(cardNonce)")
+        completionHandler(nil) // Indicate success
+        
+        
+    }
+    
+    func processPayment(with nonce: String) {
+        let url = URL(string: SQUARE_PAYMENT_BASE_URL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(SQUARE_PAYMENT_ACCESS_TOKEN)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        
+        var amountIs = Double(self.str_pending_amount_to_pay!)! * 100
+        // Payment payload
+        let paymentData: [String: Any] = [
+            "source_id": nonce,
+            "idempotency_key": UUID().uuidString, // Unique key for each request
+            "amount_money": [
+                "amount": amountIs, // Amount in cents (100 = $1.00)
+                "currency": "USD"
+            ]
+        ]
+
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: paymentData, options: [])
+        } catch {
+            print("Failed to serialize payment data: \(error)")
+            return
+        }
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error making payment: \(error)")
+                return
+            }
+
+            guard let data = data, let httpResponse = response as? HTTPURLResponse else {
+                print("No data or response received")
+                return
+            }
+
+            /*if httpResponse.statusCode == 200 {
+                print("Payment successful!")
+                if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+                    print("Payment response: \(json)")
+                    
+                    // call api
+                    ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+                    self.book_a_table_wb(advanced_payment: self.paymentForSquare)
+                }
+            } else {
+                print("Payment failed with status code: \(httpResponse.statusCode)")
+            }*/
+            if httpResponse.statusCode == 200 {
+                       print("Payment successful!")
+                       do {
+                           // Parse JSON response
+                           if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                              let payment = json["payment"] as? [String: Any],
+                              let paymentId = payment["id"] as? String {
+                               print("Payment ID: \(paymentId)")
+                               self.storeSquarePaymentId = "\(paymentId)"
+                               
+                               // Call API with payment ID
+                               DispatchQueue.main.async {
+                                   ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+                                   // self.book_a_table_wb(advanced_payment: self.paymentForSquare)
+                                   self.pay_pending_payment_wb()
+                               }
+                           } else {
+                               print("Failed to parse 'payment' or 'id' from response")
+                           }
+                       } catch {
+                           print("Failed to parse JSON response: \(error)")
+                       }
+                   } else {
+                       print("Payment failed with status code: \(httpResponse.statusCode)")
+                   }
+        }.resume()
+    }
+    
+    //MARK: - PAY PENDING PAYMENT -
+    @objc func pay_pending_payment_wb() {
+        
+        // self.view.endEditing(true)
+        // ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+        
+        if let person = UserDefaults.standard.value(forKey: "keyLoginFullData") as? [String:Any] {
+            // print(person as Any)
+            
+            let x : Int = person["userId"] as! Int
+            let myString = String(x)
+             
+            let params = pay_pending_payment(action: "remainpaymentupdate",
+                                             userId: String(myString),
+                                             bookingId: String(self.str_save_booking_id_for_pending_payment),
+                                             fullPaymentStatus: "1",
+                                             remainPayment:String(self.str_pending_amount_to_pay),
+                                             remainTransactionID:String(self.storeSquarePaymentId))
+            
+            print(params as Any)
+            
+            AF.request(APPLICATION_BASE_URL,
+                       method: .post,
+                       parameters: params,
+                       encoder: JSONParameterEncoder.default).responseJSON { response in
+                // debugPrint(response.result)
+                
+                switch response.result {
+                case let .success(value):
+                    
+                    let JSON = value as! NSDictionary
+                    print(JSON as Any)
+                    
+                    var strSuccess : String!
+                    strSuccess = (JSON["status"]as Any as? String)?.lowercased()
+                    print(strSuccess as Any)
+                    if strSuccess == String("success") {
+                        print("yes")
+                        
+                        ERProgressHud.sharedInstance.hide()
+                        
+                        var strSuccess2 : String!
+                        strSuccess2 = JSON["msg"]as Any as? String
+                        
+                        let alert = NewYorkAlertController(title: "Success", message: String(strSuccess2), style: .alert)
+                        
+                        alert.addImage(UIImage.gif(name: "success3"))
+                        
+                        let cancel = NewYorkButton(title: "Ok", style: .cancel) { _ in
+                            
+                            self.navigationController?.popViewController(animated: true)
+                            /*let tab_bar = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "tab_bar_controller_id") as? tab_bar_controller
+                            tab_bar?.selectedIndex = 1
+                            self.navigationController?.pushViewController(tab_bar!, animated: false)*/
+                            
+                        }
+                        alert.addButtons([cancel])
+                        
+                        self.present(alert, animated: true)
+                        
+                        /*var get_transaction_id : String!
+                        get_transaction_id = JSON["transactionID"]as Any as? String
+                        
+                        self.update_payment_after_stripe(str_booking_id: String(myString_2),
+                                                         str_payment_Status: "1",
+                                                         str_status_is:"no",
+                                                         str_transaction_id: String(get_transaction_id))*/
+                        
+                        
+                    } else {
+                        print("no")
+                          ERProgressHud.sharedInstance.hide()
+                        
+                        var strSuccess2 : String!
+                        strSuccess2 = JSON["msg"]as Any as? String
+                        
+                        if strSuccess2 == "Your Account is Inactive. Please contact admin.!!" ||
+                            strSuccess2 == "Your Account is Inactive. Please contact admin.!" ||
+                            strSuccess2 == "Your Account is Inactive. Please contact admin." {
+                            
+                            
+                        } else {
+                            
+                            let alert = UIAlertController(title: String(strSuccess).uppercased(), message: String(strSuccess2), preferredStyle: .alert)
+                            
+                            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                            
+                            self.present(alert, animated: true)
+                            
+                        }
+                    }
+                    
+                case let .failure(error):
+                    print(error)
+                    ERProgressHud.sharedInstance.hide()
+                    
+                    // Utils.showAlert(alerttitle: SERVER_ISSUE_TITLE, alertmessage: SERVER_ISSUE_MESSAGE, ButtonTitle: "Ok", viewController: self)
+                }
+            }
+        }
+    }
+    
 }
-extension BookingDetailsVC {
+/*extension BookingDetailsVC {
     func didRequestPayWithCard() {
         dismiss(animated: true) {
             let vc = self.makeCardEntryViewController()
@@ -813,9 +827,9 @@ extension BookingDetailsVC {
             self.present(nc, animated: true, completion: nil)
         }
     }
-}
+}*/
 
-import SquareInAppPaymentsSDK
+/*import SquareInAppPaymentsSDK
 extension BookingDetailsVC {
     func makeCardEntryViewController() -> SQIPCardEntryViewController {
         let cardEntry = SQIPCardEntryViewController(theme: SQIPTheme())
@@ -823,10 +837,10 @@ extension BookingDetailsVC {
         cardEntry.delegate = self
         return cardEntry
     }
-}
+}*/
 
 //Handle the card entry success or failure from the card entry form
-extension BookingDetailsVC: SQIPCardEntryViewControllerDelegate {
+/*extension BookingDetailsVC: SQIPCardEntryViewControllerDelegate {
     func cardEntryViewController(
         _: SQIPCardEntryViewController,
         didCompleteWith _: SQIPCardEntryCompletionStatus
@@ -851,7 +865,7 @@ extension BookingDetailsVC: UINavigationControllerDelegate {
    ) -> UIInterfaceOrientationMask {
        return .portrait
    }
-}
+}*/
 
 
 //MARK:- TABLE VIEW -
@@ -995,14 +1009,15 @@ extension BookingDetailsVC: UITableViewDataSource {
             
          }
         
-        let cwd_payment = NewYorkButton(title: "Credit / Debit card : ", style: .default) { _ in
+        let cwd_payment = NewYorkButton(title: "Credit / Debit card: $\(self.str_pending_amount_to_pay!)", style: .default) { _ in
             // print("camera clicked done")
 
             self.str_save_booking_id_for_pending_payment = "\(self.dict_get_booking_details["bookingId"]!)"
             // self.payment_via_cwa(payment_to_cwa: self.str_pending_amount_to_pay)
             
             // self.open_card_popup(final_payment_for_card_payment: self.str_pending_amount_to_pay)
-            
+            // self.paymentForSquare = Double(final_pay_to_club)
+            self.startCardEntry()
             debugPrint("Implement Square payment 3")
              
          }
