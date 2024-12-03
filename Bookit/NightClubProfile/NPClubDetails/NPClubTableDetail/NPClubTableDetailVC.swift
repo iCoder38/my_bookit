@@ -11,7 +11,7 @@ import SDWebImage
 
 import PassKit
 import SwiftyJSON
-
+import SquareInAppPaymentsSDK
 struct ResponseObject<T: Decodable>: Decodable {
     let form: T    // often the top level key is `data`, but in the case of https://httpbin.org, it echos the submission under the key `form`
 }
@@ -49,7 +49,7 @@ struct Foo: Decodable {
     let ccnumber: String
 }
 
-class NPClubTableDetailVC: UIViewController {
+class NPClubTableDetailVC: UIViewController, SQIPCardEntryViewControllerDelegate {
     
     var dict_save_club_info_for_apple_pay:NSDictionary!
     
@@ -64,6 +64,10 @@ class NPClubTableDetailVC: UIViewController {
     var dict_get_for_guest:NSDictionary!
     
     var str_guest_select_final_date:String!
+    
+    
+    var paymentForSquare:Double!
+    var storeSquarePaymentId:String!
     
     
     var payment_for_apple_pay:String!
@@ -82,34 +86,34 @@ class NPClubTableDetailVC: UIViewController {
     }
     
     // ***************************************************************** // nav
-                    
-        @IBOutlet weak var navigationBar:UIView! {
-            didSet {
-                navigationBar.backgroundColor = NAVIGATION_COLOR
-                navigationBar.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-                navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
-                navigationBar.layer.shadowOpacity = 1.0
-                navigationBar.layer.shadowRadius = 15.0
-                navigationBar.layer.masksToBounds = false
-            }
+    
+    @IBOutlet weak var navigationBar:UIView! {
+        didSet {
+            navigationBar.backgroundColor = NAVIGATION_COLOR
+            navigationBar.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+            navigationBar.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+            navigationBar.layer.shadowOpacity = 1.0
+            navigationBar.layer.shadowRadius = 15.0
+            navigationBar.layer.masksToBounds = false
         }
-            
-       @IBOutlet weak var btnBack:UIButton! {
-            didSet {
-                btnBack.tintColor = NAVIGATION_BACK_COLOR
-            }
+    }
+    
+    @IBOutlet weak var btnBack:UIButton! {
+        didSet {
+            btnBack.tintColor = NAVIGATION_BACK_COLOR
         }
-            
-        @IBOutlet weak var lblNavigationTitle:UILabel! {
-            didSet {
-                lblNavigationTitle.text = "Tables"
-                lblNavigationTitle.textColor = NAVIGATION_TITLE_COLOR
-                lblNavigationTitle.backgroundColor = .clear
-            }
+    }
+    
+    @IBOutlet weak var lblNavigationTitle:UILabel! {
+        didSet {
+            lblNavigationTitle.text = "Tables"
+            lblNavigationTitle.textColor = NAVIGATION_TITLE_COLOR
+            lblNavigationTitle.backgroundColor = .clear
         }
-                    
+    }
+    
     // ***************************************************************** // nav
-   
+    
     @IBOutlet weak var tablView:UITableView! {
         didSet {
             // tablView.delegate = self
@@ -117,9 +121,9 @@ class NPClubTableDetailVC: UIViewController {
             tablView.backgroundColor =  .clear // UIColor.init(red: 230.0/255.0, green: 212.0/255.0, blue: 196.0/255.0, alpha: 1)
         }
     }
-
+    
     // 230 , 212 , 196
-
+    
     @IBOutlet weak var btn_plus:UIButton! {
         didSet {
             btn_plus.tintColor = .white
@@ -129,7 +133,7 @@ class NPClubTableDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.view.backgroundColor = UIColor.init(red: 250.0/255.0, green: 248.0/255.0, blue: 246.0/255.0, alpha: 1)
         
         self.navigationController?.isNavigationBarHidden = true
@@ -143,162 +147,162 @@ class NPClubTableDetailVC: UIViewController {
         
         // print(self.club_Details as Any)
         
-//        let url = URL(string: "http://www.stackoverflow.com")!
-//
-//        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-//            guard let data = data else { return }
-//            print(String(data: data, encoding: .utf8)!)
-//        }
-//
-//        task.resume()
+        //        let url = URL(string: "http://www.stackoverflow.com")!
+        //
+        //        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+        //            guard let data = data else { return }
+        //            print(String(data: data, encoding: .utf8)!)
+        //        }
+        //
+        //        task.resume()
         
         
         /*let json: [String: Any] = ["zip":"77777",
-                                   "country":"India",
-                                   "amount":1.00,
-                                   "firstname":"Dishant",
-                                   "cvv":"999",
-                                   "city":"Delhi",
-                                   "address1":"888",
-                                   "type":"sale",
-                                   "lastname":"Rajput",
-                                   "security_key":"rzv73u6neV6sNdWH7r22q5WGJU3a9Q6T",
-                                   "phone":"8287632340",
-                                   "state":"Delhi",
-                                   "ccexp":"1025",
-                                   "ccnumber":"4111111111111111",]
-
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
-print(jsonData)
-        // create post request
-        let url = URL(string: "https://cwamerchantservices.transactiongateway.com/api/transact.php")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-
-        // insert json data to the request
-        request.httpBody = jsonData
-        // print(jsonData as Any)
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                return
-            }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                print(responseJSON)
-            }
-        }
-
-        task.resume()*/
+         "country":"India",
+         "amount":1.00,
+         "firstname":"Dishant",
+         "cvv":"999",
+         "city":"Delhi",
+         "address1":"888",
+         "type":"sale",
+         "lastname":"Rajput",
+         "security_key":"rzv73u6neV6sNdWH7r22q5WGJU3a9Q6T",
+         "phone":"8287632340",
+         "state":"Delhi",
+         "ccexp":"1025",
+         "ccnumber":"4111111111111111",]
+         
+         let jsonData = try? JSONSerialization.data(withJSONObject: json)
+         print(jsonData)
+         // create post request
+         let url = URL(string: "https://cwamerchantservices.transactiongateway.com/api/transact.php")!
+         var request = URLRequest(url: url)
+         request.httpMethod = "POST"
+         
+         // insert json data to the request
+         request.httpBody = jsonData
+         // print(jsonData as Any)
+         
+         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+         guard let data = data, error == nil else {
+         print(error?.localizedDescription ?? "No data")
+         return
+         }
+         let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+         if let responseJSON = responseJSON as? [String: Any] {
+         print(responseJSON)
+         }
+         }
+         
+         task.resume()*/
         
         
         
         
         //declare parameter as a dictionary which contains string as key and value combination.
-            /*let parameters = ["zip":"77777",
-                              "country":"India",
-                              "amount":"1.10",
-                              "firstname":"Dishant",
-                              "cvv":"999",
-                              "city":"Delhi",
-                              "address1":"888",
-                              "type":"sale",
-                              "lastname":"Rajput",
-                              "security_key":"rzv73u6neV6sNdWH7r22q5WGJU3a9Q6T",
-                              "phone":"8287632340",
-                              "state":"Delhi",
-                              "ccexp":"1025",
-                              "ccnumber":"4111111111111111"] as [String : Any]
-
-            //create the url with NSURL
-            let url = URL(string: "https://cwamerchantservices.transactiongateway.com/api/transact.php")!
-
-            //create the session object
-            let session = URLSession.shared
-
-            //now create the Request object using the url object
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST" //set http method as POST
-
-            do {
-                request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to data object and set it as request body
-            } catch let error {
-                print(error.localizedDescription)
-//                completion(nil, error)
-            }
-
-            //HTTP Headers
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.addValue("application/json", forHTTPHeaderField: "Accept")
-
-            //create dataTask using the session object to send data to the server
-            let task = session.dataTask(with: request, completionHandler: { data, response, error in
-
-                guard error == nil else {
-//                    completion(nil, error)
-                    return
-                }
-
-                guard let data = data else {
-//                    completion(nil, NSError(domain: "dataNilError", code: -100001, userInfo: nil))
-                    return
-                }
-
-                do {
-                    //create json object from data
-                    guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] else {
-//                        completion(nil, NSError(domain: "invalidJSONTypeError", code: -100009, userInfo: nil))
-                        return
-                    }
-                    print(json)
-//                    completion(json, nil)
-                } catch let error {
-                    print(error.localizedDescription)
-//                    completion(nil, error)
-                }
-            })
-
-        task.resume()*/
+        /*let parameters = ["zip":"77777",
+         "country":"India",
+         "amount":"1.10",
+         "firstname":"Dishant",
+         "cvv":"999",
+         "city":"Delhi",
+         "address1":"888",
+         "type":"sale",
+         "lastname":"Rajput",
+         "security_key":"rzv73u6neV6sNdWH7r22q5WGJU3a9Q6T",
+         "phone":"8287632340",
+         "state":"Delhi",
+         "ccexp":"1025",
+         "ccnumber":"4111111111111111"] as [String : Any]
+         
+         //create the url with NSURL
+         let url = URL(string: "https://cwamerchantservices.transactiongateway.com/api/transact.php")!
+         
+         //create the session object
+         let session = URLSession.shared
+         
+         //now create the Request object using the url object
+         var request = URLRequest(url: url)
+         request.httpMethod = "POST" //set http method as POST
+         
+         do {
+         request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to data object and set it as request body
+         } catch let error {
+         print(error.localizedDescription)
+         //                completion(nil, error)
+         }
+         
+         //HTTP Headers
+         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+         request.addValue("application/json", forHTTPHeaderField: "Accept")
+         
+         //create dataTask using the session object to send data to the server
+         let task = session.dataTask(with: request, completionHandler: { data, response, error in
+         
+         guard error == nil else {
+         //                    completion(nil, error)
+         return
+         }
+         
+         guard let data = data else {
+         //                    completion(nil, NSError(domain: "dataNilError", code: -100001, userInfo: nil))
+         return
+         }
+         
+         do {
+         //create json object from data
+         guard let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] else {
+         //                        completion(nil, NSError(domain: "invalidJSONTypeError", code: -100009, userInfo: nil))
+         return
+         }
+         print(json)
+         //                    completion(json, nil)
+         } catch let error {
+         print(error.localizedDescription)
+         //                    completion(nil, error)
+         }
+         })
+         
+         task.resume()*/
         
         /*let json: [String: Any] = ["zip":"77777",
-                                   "country":"India",
-                                   "amount":"1.10",
-                                   "firstname":"Dishant",
-                                   "cvv":"999",
-                                   "city":"Delhi",
-                                   "address1":"888",
-                                   "type":"sale",
-                                   "lastname":"Rajput",
-                                   "security_key":"rzv73u6neV6sNdWH7r22q5WGJU3a9Q6T",
-                                   "phone":"8287632340",
-                                   "state":"Delhi",
-                                   "ccexp":"1025",
-                                   "ccnumber":"4111111111111111"]
-        
-        let jsonData = try? JSONSerialization.data(withJSONObject: json)
-
-        // create post request
-        let url = URL(string: "https://cwamerchantservices.transactiongateway.com/api/transact.php/")! //PUT Your URL
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        // insert json data to the request
-        request.httpBody = jsonData
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print(error?.localizedDescription ?? "No data")
-                return
-            }
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                print(responseJSON) //Code after Successfull POST Request
-            }
-        }
-
-        task.resume()*/
+         "country":"India",
+         "amount":"1.10",
+         "firstname":"Dishant",
+         "cvv":"999",
+         "city":"Delhi",
+         "address1":"888",
+         "type":"sale",
+         "lastname":"Rajput",
+         "security_key":"rzv73u6neV6sNdWH7r22q5WGJU3a9Q6T",
+         "phone":"8287632340",
+         "state":"Delhi",
+         "ccexp":"1025",
+         "ccnumber":"4111111111111111"]
+         
+         let jsonData = try? JSONSerialization.data(withJSONObject: json)
+         
+         // create post request
+         let url = URL(string: "https://cwamerchantservices.transactiongateway.com/api/transact.php/")! //PUT Your URL
+         var request = URLRequest(url: url)
+         request.httpMethod = "POST"
+         request.setValue("\(String(describing: jsonData?.count))", forHTTPHeaderField: "Content-Length")
+         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+         // insert json data to the request
+         request.httpBody = jsonData
+         
+         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+         guard let data = data, error == nil else {
+         print(error?.localizedDescription ?? "No data")
+         return
+         }
+         let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+         if let responseJSON = responseJSON as? [String: Any] {
+         print(responseJSON) //Code after Successfull POST Request
+         }
+         }
+         
+         task.resume()*/
         
         
         //
@@ -313,7 +317,7 @@ print(jsonData)
          */
         
         let str = "response=3&responsetext=CVV must be 3 or 4 digits REFID:1151386023&authcode=&transactionid=&avsresponse=&cvvresponse=&orderid=&type=sale&response_code=300"
-
+        
         
         var ch = Character("&")
         var result = str.split(separator: ch)
@@ -347,27 +351,27 @@ print(jsonData)
         
         
         // let dict = convertToDictionary(text: str)
-//        print(dict as Any)
+        //        print(dict as Any)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-//        UserDefaults.standard.set("", forKey: "key_save_card_details")
-//        UserDefaults.standard.set(nil, forKey: "key_save_card_details")
+        //        UserDefaults.standard.set("", forKey: "key_save_card_details")
+        //        UserDefaults.standard.set(nil, forKey: "key_save_card_details")
         
         if let payment_details = UserDefaults.standard.value(forKey: "key_save_card_details") as? [String:Any] {
             
             self.btnBack.isHidden = true
             self.lblNavigationTitle.text = "please wait..."
             
-                self.payment_via_cwa(payment_to_cwa: (payment_details["card_amount"] as! String),
-                                     get_card_number: (payment_details["card_number"] as! String),
-                                     get_card_name: (payment_details["card_name"] as! String),
-                                     get_card_cvv: (payment_details["card_cvv"] as! String),
-                                     get_card_year: (payment_details["card_year"] as! String),
-                                     get_card_month: (payment_details["card_month"] as! String))
-           
+            self.payment_via_cwa(payment_to_cwa: (payment_details["card_amount"] as! String),
+                                 get_card_number: (payment_details["card_number"] as! String),
+                                 get_card_name: (payment_details["card_name"] as! String),
+                                 get_card_cvv: (payment_details["card_cvv"] as! String),
+                                 get_card_year: (payment_details["card_year"] as! String),
+                                 get_card_month: (payment_details["card_month"] as! String))
+            
         }
         
         self.club_table_listing_wb()
@@ -538,8 +542,8 @@ print(jsonData)
                         }
                         
                     }
-                        
-                    } else {
+                    
+                } else {
                     print("no")
                     //  ERProgressHud.sharedInstance.hide()
                     
@@ -588,11 +592,11 @@ print(jsonData)
         // defaults.set(self.arr_only_store_ids, forKey: "key_save_aggression_development_delay_BH")
         
         let array = defaults.object(forKey: "key_save_guest_ids") as? [String] ?? [String]()
-         print(array as Any)
+        print(array as Any)
         
         if array.count == 0 {
             
-             // self.please_register_prompt()
+            // self.please_register_prompt()
             
             self.only_for_guest_booking(dict_get_table_data: item! as NSDictionary)
             
@@ -609,7 +613,7 @@ print(jsonData)
         print(dict_get_table_data as Any)
         
         let alert = NewYorkAlertController(title: "Book a Table", message: "Book a table for today or schedule it.", style: .alert)
-
+        
         self.get_table_id = "\(dict_get_table_data["clubTableId"] as! Int)"
         
         
@@ -628,7 +632,7 @@ print(jsonData)
             print("Tapped SCHEDULE A DATE")
             
             // self.schedule_a_data(dict_get: self.dict_get_for_guest)
-             self.open_schedule_a_date_for_guest(dict_get_customer_data: self.dict_get_for_guest)
+            self.open_schedule_a_date_for_guest(dict_get_customer_data: self.dict_get_for_guest)
             
             // self.schedule_a_data(dict_get: self.dict_get_for_guest)
             
@@ -639,7 +643,7 @@ print(jsonData)
         
         let cancel = NewYorkButton(title: "Cancel", style: .cancel)
         alert.addButtons([book_for_today,schedule_A_Date, cancel])
-
+        
         present(alert, animated: true)
         
     }
@@ -670,7 +674,7 @@ print(jsonData)
         // print(self.str_guest_select_final_date as Any)
         
         // let date = Date().today(format: "yyyy-MM-dd")
-
+        
         // print(date)
         
         let params = check_dates_availaibility(action: "checkavailable",
@@ -705,7 +709,7 @@ print(jsonData)
                     strSuccess2 = JSON["Availabe"]as Any as? String
                     
                     if strSuccess2 == "No" {
-                    
+                        
                         let alert = NewYorkAlertController(title: String("Alert"), message: String("This table is already booked for today. Please choose another table."), style: .alert)
                         
                         alert.addImage(UIImage.gif(name: "gif_alert"))
@@ -715,15 +719,9 @@ print(jsonData)
                         
                         self.present(alert, animated: true)
                         
-                        
                     } else {
-                        
                         self.please_register_prompt()
-                        
-                         
-                        
                     }
-                    
                     
                 } else {
                     print("no")
@@ -772,7 +770,7 @@ print(jsonData)
     @objc func open_action_sheet() {
         
         let alert = NewYorkAlertController.init(title: "Register", message: "Please enter your Full name and Email address.", style: .alert)
-
+        
         // alert.addImage(UIImage(named: "Image"))
         
         alert.addTextField { tf in
@@ -784,7 +782,7 @@ print(jsonData)
             tf.keyboardType = .emailAddress
             tf.tag = 2
         }
-
+        
         let ok = NewYorkButton(title: "submit", style: .default) { [unowned alert] _ in
             alert.textFields.forEach { tf in
                 let text = tf.text ?? ""
@@ -807,9 +805,9 @@ print(jsonData)
         let cancel = NewYorkButton(title: "Cancel", style: .cancel)
         
         alert.addButtons([ok, cancel])
-
+        
         alert.isTapDismissalEnabled = false
-
+        
         present(alert, animated: true)
         
     }
@@ -819,7 +817,7 @@ print(jsonData)
         
         self.view.endEditing(true)
         ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "please wait...")
-         
+        
         let random_password_generate = String.randomNumberGenerate()
         
         let params = guest_register(action: "registration",
@@ -900,7 +898,7 @@ print(jsonData)
                         print(self.str_guest_select_final_date as Any)
                         
                         push!.dict_get_table_Details = self.dict_get_for_guest
-                         push!.get_club_name = club_name
+                        push!.get_club_name = club_name
                         push!.dict_get_club_details = self.club_Details
                         // push!.my_payment_server_status = "yes"
                         push!.str_schedule_date = String(self.str_guest_select_final_date)
@@ -913,7 +911,7 @@ print(jsonData)
                     
                 } else {
                     print("no")
-                     ERProgressHud.sharedInstance.hide()
+                    ERProgressHud.sharedInstance.hide()
                     
                     var strSuccess2 : String!
                     strSuccess2 = JSON["msg"]as Any as? String
@@ -939,58 +937,58 @@ print(jsonData)
     
     @objc func apple_pay_in_bookit(
         str_club_name:String,str_table_name:String,str_table_price:String) {
-        
+            
             self.payment_for_apple_pay = String(str_table_price)
             // print(self.payment_for_apple_pay as Any)
             
             let paymentItem = PKPaymentSummaryItem.init(label: str_club_name+"\n"+str_table_name, amount: NSDecimalNumber(value: str_table_price.toDouble()!))
-        
-        // for cards
+            
+            // for cards
             let paymentNetworks = [PKPaymentNetwork.amex, .discover, .masterCard, .visa]
-        
-        // check user did payment
+            
+            // check user did payment
             if PKPaymentAuthorizationViewController.canMakePayments(usingNetworks: paymentNetworks) {
-            
-            // if user make payment
-            let request = PKPaymentRequest()
-            request.currencyCode = "USD" // 1
-            request.countryCode = "US" // 2
-
+                
+                // if user make payment
+                let request = PKPaymentRequest()
+                request.currencyCode = "USD" // 1
+                request.countryCode = "US" // 2
+                
                 request.merchantIdentifier = merchant_id
-
-            request.merchantCapabilities = PKMerchantCapability.capability3DS // 4
-            request.supportedNetworks = paymentNetworks // 5
-            request.paymentSummaryItems = [paymentItem] // 6
-            
-            
-            guard let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: request) else {
-                displayDefaultAlert(title: "Error", message: "Unable to present Apple Pay authorization.")
-                return
+                
+                request.merchantCapabilities = PKMerchantCapability.capability3DS // 4
+                request.supportedNetworks = paymentNetworks // 5
+                request.paymentSummaryItems = [paymentItem] // 6
+                
+                
+                guard let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: request) else {
+                    displayDefaultAlert(title: "Error", message: "Unable to present Apple Pay authorization.")
+                    return
+                }
+                paymentVC.delegate = self
+                self.present(paymentVC, animated: true, completion: nil)
+                
+            } else {
+                displayDefaultAlert(title: "Error", message: "Unable to make Apple Pay transaction.")
             }
-            paymentVC.delegate = self
-            self.present(paymentVC, animated: true, completion: nil)
-
-        } else {
-            displayDefaultAlert(title: "Error", message: "Unable to make Apple Pay transaction.")
+            
         }
-        
-    }
     
     func displayDefaultAlert(title: String?, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-       let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
     }
-
+    
     @objc func payment_via_cwa(payment_to_cwa:String,
                                get_card_number:String,
                                get_card_name:String,
                                get_card_cvv:String,
                                get_card_year:String,
                                get_card_month:String
-                                
-    
+                               
+                               
     ) {
         
         
@@ -1119,78 +1117,78 @@ print(jsonData)
     }
     
     @objc func book_a_table_wb(advanced_payment:Double) {
-      
+        
         print(self.dict_save_club_info_for_apple_pay as Any)
         print(self.club_Details as Any)
         
         /*
          Optional({
-             advancePercentage = 20;
-             clubTableId = 81;
-             created = "Jan 3rd, 2023, 9:58 pm";
-             description = "Five premium no cover up to 10 people ";
-             image = "https://bookitweb.com/img/uploads/table/1672801106add_table.png";
-             name = PLATINUM;
-             "profile_picture" = "https://bookitweb.com/img/uploads/users/1672801183add_club_logo.png";
-             seatPrice = 1500;
-             totalSeat = 5;
-             userAddress = "51-07 27th Street";
-             userId = 1336;
-             userName = "Sugar Daddy's Gentlemen\U2019s Club";
+         advancePercentage = 20;
+         clubTableId = 81;
+         created = "Jan 3rd, 2023, 9:58 pm";
+         description = "Five premium no cover up to 10 people ";
+         image = "https://bookitweb.com/img/uploads/table/1672801106add_table.png";
+         name = PLATINUM;
+         "profile_picture" = "https://bookitweb.com/img/uploads/users/1672801183add_club_logo.png";
+         seatPrice = 1500;
+         totalSeat = 5;
+         userAddress = "51-07 27th Street";
+         userId = 1336;
+         userName = "Sugar Daddy's Gentlemen\U2019s Club";
          })
          Optional({
-             AVGRating = "";
-             Fri = 0;
-             Mon = 0;
-             Sat = 0;
-             StripeStatus = "";
-             Sun = 0;
-             Thu = 0;
-             Tue = 0;
-             Userimage = "https://bookitweb.com/img/uploads/users/1672801183add_club_logo.png";
-             Wed = 0;
-             about = "Gentlemen\U2019s Club";
-             address = "51-07 27th Street";
-             banner = "https://bookitweb.com/img/uploads/users/1672801191edit_club_banner.png";
-             city = 11101;
-             closeTime = "04:00 AM";
-             contactNumber = "718-706-9600";
-             currentPaymentOption = WIRED;
-             device = "";
-             deviceToken = "";
-             email = "";
-             fullName = "Sugar Daddy's Gentlemen\U2019s Club";
-             latitude = "";
-             longitude = "";
-             openTime = "08:00 PM";
-             stripeAccountNo = "";
-             totalLiked = 0;
-             userId = 1336;
-             youliked = No;
-             zipCode = 11101;
+         AVGRating = "";
+         Fri = 0;
+         Mon = 0;
+         Sat = 0;
+         StripeStatus = "";
+         Sun = 0;
+         Thu = 0;
+         Tue = 0;
+         Userimage = "https://bookitweb.com/img/uploads/users/1672801183add_club_logo.png";
+         Wed = 0;
+         about = "Gentlemen\U2019s Club";
+         address = "51-07 27th Street";
+         banner = "https://bookitweb.com/img/uploads/users/1672801191edit_club_banner.png";
+         city = 11101;
+         closeTime = "04:00 AM";
+         contactNumber = "718-706-9600";
+         currentPaymentOption = WIRED;
+         device = "";
+         deviceToken = "";
+         email = "";
+         fullName = "Sugar Daddy's Gentlemen\U2019s Club";
+         latitude = "";
+         longitude = "";
+         openTime = "08:00 PM";
+         stripeAccountNo = "";
+         totalLiked = 0;
+         userId = 1336;
+         youliked = No;
+         zipCode = 11101;
          */
-         //
+        //
         
         
         
         if let person = UserDefaults.standard.value(forKey: "keyLoginFullData") as? [String:Any] {
             // print(person as Any)
-
+            
             let x : Int = person["userId"] as! Int
             let myString = String(x)
-
+            
             let x_2 : Int = (self.dict_save_club_info_for_apple_pay["userId"] as! Int)
             let myString_2 = String(x_2)
-
+            
             let x_3 : Int = (self.dict_save_club_info_for_apple_pay["clubTableId"] as! Int)
             let myString_3 = String(x_3)
-
+            
             let x_4 : Int = (self.dict_save_club_info_for_apple_pay["totalSeat"] as! Int)
             let myString_4 = String(x_4)
-
+            
             let x_5 : Int = (self.dict_save_club_info_for_apple_pay["seatPrice"] as! Int)
             let myString_5 = String(x_5)
-
+            
             let params = customer_book_a_table(action   : "addbooking",
                                                userId       : myString,
                                                clubId       : myString_2,
@@ -1204,36 +1202,36 @@ print(jsonData)
                                                advancePayment : "\(advanced_payment)",
                                                fullPaymentStatus: String("2") // half payment
             )
-
+            
             print(params as Any)
-
+            
             AF.request(APPLICATION_BASE_URL,
                        method: .post,
                        parameters: params,
                        encoder: JSONParameterEncoder.default).responseJSON { response in
                 // debugPrint(response.result)
-
+                
                 switch response.result {
                 case let .success(value):
-
+                    
                     let JSON = value as! NSDictionary
                     print(JSON as Any)
-
+                    
                     var strSuccess : String!
                     strSuccess = (JSON["status"]as Any as? String)?.lowercased()
                     print(strSuccess as Any)
                     if strSuccess == String("success") {
                         print("yes")
-
+                        
                         // ERProgressHud.sharedInstance.hide()
-
+                        
                         let x : Int = JSON["bookingId"] as! Int
                         let myString_bid = String(x)
-
+                        
                         /*self.update_payment_from_stripe_to_EVS(str_booking_id_2: String(myString_bid),
-                                                               str_payment_Status_2: self.is_full_payment_status,
-                                                               str_status_is_2: "yes",
-                                                               str_total_amount: String(myString_5))*/
+                         str_payment_Status_2: self.is_full_payment_status,
+                         str_status_is_2: "yes",
+                         str_total_amount: String(myString_5))*/
                         
                         
                         self.update_payment_after_stripe(str_booking_id: String(myString_bid),
@@ -1241,36 +1239,36 @@ print(jsonData)
                                                          str_status_is: "yes",
                                                          str_transaction_id: "dummy_transaction_id",
                                                          str_total_price: "\(advanced_payment)")
-
-
-
+                        
+                        
+                        
                     } else {
                         print("no")
-                          ERProgressHud.sharedInstance.hide()
-
+                        ERProgressHud.sharedInstance.hide()
+                        
                         var strSuccess2 : String!
                         strSuccess2 = JSON["msg"]as Any as? String
-
+                        
                         if strSuccess2 == "Your Account is Inactive. Please contact admin.!!" ||
                             strSuccess2 == "Your Account is Inactive. Please contact admin.!" ||
                             strSuccess2 == "Your Account is Inactive. Please contact admin." {
-
-
+                            
+                            
                         } else {
-
+                            
                             let alert = UIAlertController(title: String(strSuccess).uppercased(), message: String(strSuccess2), preferredStyle: .alert)
-
+                            
                             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-
+                            
                             self.present(alert, animated: true)
-
+                            
                         }
                     }
-
+                    
                 case let .failure(error):
                     print(error)
                     ERProgressHud.sharedInstance.hide()
-
+                    
                     // Utils.showAlert(alerttitle: SERVER_ISSUE_TITLE, alertmessage: SERVER_ISSUE_MESSAGE, ButtonTitle: "Ok", viewController: self)
                 }
             }
@@ -1295,10 +1293,10 @@ print(jsonData)
             let myString = String(x)
             
             let params = Bookit.update_payment_after_stripe_webservice(action: "updatepayment",
-                                                     userId: String(myString),
-                                                     bookingId: String(str_booking_id),
-                                                     fullPaymentStatus: String(str_payment_Status),
-                                                     transactionId: String(str_transaction_id))
+                                                                       userId: String(myString),
+                                                                       bookingId: String(str_booking_id),
+                                                                       fullPaymentStatus: String(str_payment_Status),
+                                                                       transactionId: String(self.storeSquarePaymentId))
             
             print(params as Any)
             
@@ -1387,12 +1385,125 @@ print(jsonData)
     @objc func confirm_payment(str_total_price_show:String) {
         
         let push = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "BookingSuccessVC") as? BookingSuccessVC
-         push!.str_booked_price = str_total_price_show
+        push!.str_booked_price = str_total_price_show
         self.navigationController?.pushViewController(push!, animated: true)
     }
     
+    
+    
+    
+    // # MARK:- PAYMENT VIA SQUARE -
+    @objc func startCardEntry() {
+        let defaultTheme = SQIPTheme() // Use the default appearance
+        do {
+            let cardEntryViewController = try SQIPCardEntryViewController(theme: defaultTheme)
+            cardEntryViewController.delegate = self
+            present(cardEntryViewController, animated: true, completion: nil)
+        } catch {
+            print("Failed to initialize card entry view controller: \(error)")
+        }
+    }
+    
+    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didCompleteWith status: SQIPCardEntryCompletionStatus) {
+        cardEntryViewController.dismiss(animated: true) {
+            switch status {
+            case .success:
+                print("Card entry was successful!")
+            case .canceled:
+                print("Card entry was canceled.")
+            @unknown default:
+                fatalError("Unhandled status: \(status)")
+            }
+        }
+    }
+    
+    func cardEntryViewController(_ cardEntryViewController: SQIPCardEntryViewController, didObtain cardDetails: SQIPCardDetails, completionHandler: @escaping ((any Error)?) -> Void) {
+        let cardNonce = cardDetails.nonce
+        print("Nonce received: \(cardNonce)")
+        processPayment(with: "\(cardNonce)")
+        completionHandler(nil) // Indicate success
+        
+        
+    }
+    
+    func processPayment(with nonce: String) {
+        let url = URL(string: SQUARE_PAYMENT_BASE_URL)!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(SQUARE_PAYMENT_ACCESS_TOKEN)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        
+        var amountIs = Double(self.paymentForSquare) * 100
+        // Payment payload
+        let paymentData: [String: Any] = [
+            "source_id": nonce,
+            "idempotency_key": UUID().uuidString, // Unique key for each request
+            "amount_money": [
+                "amount": amountIs, // Amount in cents (100 = $1.00)
+                "currency": "USD"
+            ]
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: paymentData, options: [])
+        } catch {
+            print("Failed to serialize payment data: \(error)")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error making payment: \(error)")
+                return
+            }
+            
+            guard let data = data, let httpResponse = response as? HTTPURLResponse else {
+                print("No data or response received")
+                return
+            }
+            
+            /*if httpResponse.statusCode == 200 {
+             print("Payment successful!")
+             if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+             print("Payment response: \(json)")
+             
+             // call api
+             ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+             self.book_a_table_wb(advanced_payment: self.paymentForSquare)
+             }
+             } else {
+             print("Payment failed with status code: \(httpResponse.statusCode)")
+             }*/
+            
+            if httpResponse.statusCode == 200 {
+                print("Payment successful!")
+                do {
+                    // Parse JSON response
+                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let payment = json["payment"] as? [String: Any],
+                       let paymentId = payment["id"] as? String {
+                        print("Payment ID: \(paymentId)")
+                        self.storeSquarePaymentId = "\(paymentId)"
+                        
+                        // Call API with payment ID
+                        DispatchQueue.main.async {
+                            ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+                            self.book_a_table_wb(advanced_payment: self.paymentForSquare)
+                        }
+                    } else {
+                        print("Failed to parse 'payment' or 'id' from response")
+                    }
+                } catch {
+                    print("Failed to parse JSON response: \(error)")
+                }
+            } else {
+                print("Payment failed with status code: \(httpResponse.statusCode)")
+            }
+        }.resume()
+    }
+    
 }
-
 
 //MARK:- TABLE VIEW -
 extension NPClubTableDetailVC: UITableViewDataSource {
@@ -1738,8 +1849,6 @@ extension NPClubTableDetailVC: UITableViewDataSource {
         
         
         
-        // print("\(self.club_Details[get_day_from_date]!)")
-        
         if "\(self.club_Details[get_day_from_date!]!)" == "1" {
             
             let alert = NewYorkAlertController(title: "Alert", message: String("This club is closed today. Please select another date to book this table."), style: .alert)
@@ -1753,7 +1862,7 @@ extension NPClubTableDetailVC: UITableViewDataSource {
             
             self.check_availaibility_for_guest(dict_of_that_club: dict_get)
             
-        }
+         }
         
     }
     
@@ -1769,20 +1878,13 @@ extension NPClubTableDetailVC: UITableViewDataSource {
         if "\(self.club_Details[get_day_from_date]!)" == "1" {
             
             let alert = NewYorkAlertController(title: "Alert", message: String("This club is closed today. Please select another date to book this table."), style: .alert)
-            
             let cancel = NewYorkButton(title: "dismiss", style: .cancel)
             alert.addButtons([cancel])
-            
             self.present(alert, animated: true)
             
         } else {
-        
             self.check_availaibility(dict_of_that_club: dict_get)
-            
         }
-        
-        
-        
     }
     
     func getDayNameBy(stringDate: String) -> String {
@@ -1900,7 +2002,8 @@ extension NPClubTableDetailVC: UITableViewDataSource {
                         
                         
                         // calculate booking fee
-                        let double_add_booking_fee_with_total = (convert_seat_price_to_double!*Double(0.039))+Double(0.30)
+//                        let double_add_booking_fee_with_total = (convert_seat_price_to_double!*Double(0.039))+Double(0.30)
+                        let double_add_booking_fee_with_total = (convert_seat_price_to_double!*Double(0))+Double(0)
                         print(double_add_booking_fee_with_total as Any)
                         
                         let s_final_amount = (String(format:"%.02f", double_add_booking_fee_with_total))
@@ -1935,11 +2038,11 @@ extension NPClubTableDetailVC: UITableViewDataSource {
                         print(final_pay_to_club as Any)
                         
                         let alert_table_price = "Table Price : $"+String(final_table_price)
-                        let alert_booking_price = "\n\nBooking fees : $"+String(s_final_amount)
+                        // let alert_booking_price = "\n\nBooking fees : $"+String(s_final_amount)
                         let alert_deposit = "\n\nDeposit : "+String(club_deposit_advance)+"%"
                         let alert_pay_price = " : $"+final_pay_to_club
                         
-                        let actionSheet = NewYorkAlertController(title: "Payment", message: alert_table_price+alert_booking_price+alert_deposit, style: .actionSheet)
+                        let actionSheet = NewYorkAlertController(title: "Payment", message: alert_table_price+alert_deposit, style: .actionSheet)
                         
                         actionSheet.addImage(UIImage(named: "payment_1"))
                         
@@ -1955,6 +2058,8 @@ extension NPClubTableDetailVC: UITableViewDataSource {
                         let cwd_payment = NewYorkButton(title: "Credit / Debit card : "+alert_pay_price, style: .default) { _ in
                             
                             // self.open_card_popup(final_payment_for_card_payment: final_pay_to_club)
+                            self.paymentForSquare = Double(final_pay_to_club)
+                            self.startCardEntry()
                             debugPrint("Implement Square payment 2")
                             
                          }
