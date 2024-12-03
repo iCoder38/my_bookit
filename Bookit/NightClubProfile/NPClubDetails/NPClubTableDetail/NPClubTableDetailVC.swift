@@ -1343,10 +1343,7 @@ class NPClubTableDetailVC: UIViewController, SQIPCardEntryViewControllerDelegate
                             alert.addButtons([cancel])
                             
                             self.present(alert, animated: true)
-                            
                         }
-                        
-                        
                         
                     } else {
                         print("no")
@@ -1358,7 +1355,6 @@ class NPClubTableDetailVC: UIViewController, SQIPCardEntryViewControllerDelegate
                         if strSuccess2 == "Your Account is Inactive. Please contact admin.!!" ||
                             strSuccess2 == "Your Account is Inactive. Please contact admin.!" ||
                             strSuccess2 == "Your Account is Inactive. Please contact admin." {
-                            
                             
                         } else {
                             
@@ -1388,8 +1384,6 @@ class NPClubTableDetailVC: UIViewController, SQIPCardEntryViewControllerDelegate
         push!.str_booked_price = str_total_price_show
         self.navigationController?.pushViewController(push!, animated: true)
     }
-    
-    
     
     
     // # MARK:- PAYMENT VIA SQUARE -
@@ -1422,17 +1416,15 @@ class NPClubTableDetailVC: UIViewController, SQIPCardEntryViewControllerDelegate
         print("Nonce received: \(cardNonce)")
         processPayment(with: "\(cardNonce)")
         completionHandler(nil) // Indicate success
-        
-        
     }
     
     func processPayment(with nonce: String) {
+        
         let url = URL(string: SQUARE_PAYMENT_BASE_URL)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("Bearer \(SQUARE_PAYMENT_ACCESS_TOKEN)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
         
         var amountIs = Double(self.paymentForSquare) * 100
         // Payment payload
@@ -1477,7 +1469,7 @@ class NPClubTableDetailVC: UIViewController, SQIPCardEntryViewControllerDelegate
              }*/
             
             if httpResponse.statusCode == 200 {
-                print("Payment successful!")
+                // print("Payment successful!")
                 do {
                     // Parse JSON response
                     if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
@@ -1501,6 +1493,7 @@ class NPClubTableDetailVC: UIViewController, SQIPCardEntryViewControllerDelegate
                 print("Payment failed with status code: \(httpResponse.statusCode)")
             }
         }.resume()
+        
     }
     
 }
