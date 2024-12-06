@@ -6,8 +6,10 @@ import CoreLocation
   let APPLICATION_BASE_URL = "https://bookitweb.com/services/index"
 
 // SQUARE PAYMENT
-let SQUARE_PAYMENT_BASE_URL = "https://connect.squareupsandbox.com/v2/payments"
-let SQUARE_PAYMENT_ACCESS_TOKEN = "EAAAl7656alERXi2cfNKIlyu3lzUn44_QDnwVciCBkDe5rrZ0BJdKX4E3XTyVwx9"
+let SQUARE_PAYMENT_BASE_URL = "https://connect.squareup.com/v2/payments"
+// let SQUARE_PAYMENT_BASE_URL = "https://connect.squareupsandbox.com/v2/payments"
+let SQUARE_PAYMENT_ACCESS_TOKEN = "EAAAlk9Pes8t-rhAEry-3Tthg-pT_S8g1s0Ic4uLOVlWDfjOjCVQLKhXa61OCtMQ"
+// let SQUARE_PAYMENT_ACCESS_TOKEN = "EAAAl7656alERXi2cfNKIlyu3lzUn44_QDnwVciCBkDe5rrZ0BJdKX4E3XTyVwx9"
 
 // CWA PAYMENT
 let cwa_payment_URL = "https://cwamerchantservices.transactiongateway.com/api/transact.php"
