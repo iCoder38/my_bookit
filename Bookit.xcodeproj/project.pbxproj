@@ -13,7 +13,6 @@
 		181922E427FC551B00CAF9C0 /* tav_bar_controller_club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181922E327FC551B00CAF9C0 /* tav_bar_controller_club.swift */; };
 		181922E627FC61CB00CAF9C0 /* more_tab_club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181922E527FC61CB00CAF9C0 /* more_tab_club.swift */; };
 		181B868527CDF64B00AC4220 /* club_edit_profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181B868427CDF64B00AC4220 /* club_edit_profile.swift */; };
-		181F1DD7282D40A50011FDE4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 181F1DD6282D40A50011FDE4 /* GoogleService-Info.plist */; };
 		181F60B427D8C8DE005485DE /* edit_event_creator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181F60B327D8C8DE005485DE /* edit_event_creator.swift */; };
 		182A2CDB27969CC10097431E /* NewYorkAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182A2CD827969CC10097431E /* NewYorkAlertController.swift */; };
 		182A2CDC27969CC10097431E /* NewYorkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 182A2CD927969CC10097431E /* NewYorkButton.swift */; };
@@ -123,6 +122,7 @@
 		89D4719E277ADF7A0066F5C6 /* NPBookingDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D4719D277ADF7A0066F5C6 /* NPBookingDetailTableViewCell.swift */; };
 		89D471A1277B2F7B0066F5C6 /* NPEarningVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D471A0277B2F7B0066F5C6 /* NPEarningVC.swift */; };
 		89D471A3277B2FB50066F5C6 /* NPEarningTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D471A2277B2FB50066F5C6 /* NPEarningTableViewCell.swift */; };
+		B97411152D113E9A00FC9C5B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B97411142D113E9A00FC9C5B /* GoogleService-Info.plist */; };
 		B98BDBB929D42A2400364626 /* card_payment_screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98BDBB829D42A2400364626 /* card_payment_screen.swift */; };
 		B9C8F84C29D310950055023C /* customer_complete_profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8F84B29D310950055023C /* customer_complete_profile.swift */; };
 /* End PBXBuildFile section */
@@ -151,7 +151,6 @@
 		181922E327FC551B00CAF9C0 /* tav_bar_controller_club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tav_bar_controller_club.swift; sourceTree = "<group>"; };
 		181922E527FC61CB00CAF9C0 /* more_tab_club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = more_tab_club.swift; sourceTree = "<group>"; };
 		181B868427CDF64B00AC4220 /* club_edit_profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = club_edit_profile.swift; sourceTree = "<group>"; };
-		181F1DD6282D40A50011FDE4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		181F60B327D8C8DE005485DE /* edit_event_creator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = edit_event_creator.swift; sourceTree = "<group>"; };
 		182A2CD827969CC10097431E /* NewYorkAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewYorkAlertController.swift; sourceTree = "<group>"; };
 		182A2CD927969CC10097431E /* NewYorkButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewYorkButton.swift; sourceTree = "<group>"; };
@@ -273,6 +272,7 @@
 		89D471A0277B2F7B0066F5C6 /* NPEarningVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPEarningVC.swift; sourceTree = "<group>"; };
 		89D471A2277B2FB50066F5C6 /* NPEarningTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NPEarningTableViewCell.swift; sourceTree = "<group>"; };
 		922AA78267A324D0AA81B673 /* Pods_BookitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BookitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B97411142D113E9A00FC9C5B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B98BDBB829D42A2400364626 /* card_payment_screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = card_payment_screen.swift; sourceTree = "<group>"; };
 		B9C8F84B29D310950055023C /* customer_complete_profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customer_complete_profile.swift; sourceTree = "<group>"; };
 		B9EF5BC32CFDE22800251045 /* SquareInAppPaymentsSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = SquareInAppPaymentsSDK.xcframework; sourceTree = "<group>"; };
@@ -563,7 +563,7 @@
 				896FC43A276DF48A00B3139E /* Assets.xcassets */,
 				896FC43C276DF48A00B3139E /* LaunchScreen.storyboard */,
 				896FC43F276DF48A00B3139E /* Info.plist */,
-				181F1DD6282D40A50011FDE4 /* GoogleService-Info.plist */,
+				B97411142D113E9A00FC9C5B /* GoogleService-Info.plist */,
 			);
 			path = Bookit;
 			sourceTree = "<group>";
@@ -1098,7 +1098,7 @@
 				188711DB27CCFF170059A5C9 /* YBTextPicker.xib in Resources */,
 				188711D827CCFF170059A5C9 /* YBTextPicker1.gif in Resources */,
 				188711D327CCFF170059A5C9 /* YBTextPicker_checked.png in Resources */,
-				181F1DD7282D40A50011FDE4 /* GoogleService-Info.plist in Resources */,
+				B97411152D113E9A00FC9C5B /* GoogleService-Info.plist in Resources */,
 				188711D627CCFF170059A5C9 /* green_ic_checked.png in Resources */,
 				18BF0FA727D876A000927F9A /* gif_bin.gif in Resources */,
 			);
@@ -1565,12 +1565,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.production.bookit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1645,12 +1645,12 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1;
+				MARKETING_VERSION = 2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.production.bookit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

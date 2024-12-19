@@ -1485,12 +1485,45 @@ class NPClubTableDetailVC: UIViewController, SQIPCardEntryViewControllerDelegate
                         }
                     } else {
                         print("Failed to parse 'payment' or 'id' from response")
+                        ERProgressHud.sharedInstance.hide()
+                        DispatchQueue.main.async {
+                            let alert = NewYorkAlertController(title: String("Alert"), message: String("Something wen wrong with your payment. Please try again after some time"), style: .alert)
+                            
+                            alert.addImage(UIImage.gif(name: "gif_alert"))
+                            
+                            let cancel = NewYorkButton(title: "Ok", style: .cancel)
+                            alert.addButtons([cancel])
+                            
+                            self.present(alert, animated: true)
+                        }
                     }
                 } catch {
                     print("Failed to parse JSON response: \(error)")
+                    ERProgressHud.sharedInstance.hide()
+                    DispatchQueue.main.async {
+                        let alert = NewYorkAlertController(title: String("Alert"), message: String("Something wen wrong with your payment. Please try again after some time"), style: .alert)
+                        
+                        alert.addImage(UIImage.gif(name: "gif_alert"))
+                        
+                        let cancel = NewYorkButton(title: "Ok", style: .cancel)
+                        alert.addButtons([cancel])
+                        
+                        self.present(alert, animated: true)
+                    }
                 }
             } else {
                 print("Payment failed with status code: \(httpResponse.statusCode)")
+                ERProgressHud.sharedInstance.hide()
+                DispatchQueue.main.async {
+                let alert = NewYorkAlertController(title: String("Alert"), message: String("Something wen wrong with your payment. Please try again after some time"), style: .alert)
+                
+                alert.addImage(UIImage.gif(name: "gif_alert"))
+                
+                let cancel = NewYorkButton(title: "Ok", style: .cancel)
+                alert.addButtons([cancel])
+                
+                self.present(alert, animated: true)
+            }
             }
         }.resume()
         

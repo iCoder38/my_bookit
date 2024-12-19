@@ -643,7 +643,7 @@ class BookingDetailsVC: UIViewController, SQIPCardEntryViewControllerDelegate {
         request.httpMethod = "POST"
         request.setValue("Bearer \(SQUARE_PAYMENT_ACCESS_TOKEN)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
+        
         
         var amountIs = Double(self.str_pending_amount_to_pay!)! * 100
         // Payment payload
@@ -655,62 +655,95 @@ class BookingDetailsVC: UIViewController, SQIPCardEntryViewControllerDelegate {
                 "currency": "USD"
             ]
         ]
-
+        
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: paymentData, options: [])
         } catch {
             print("Failed to serialize payment data: \(error)")
             return
         }
-
+        
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error making payment: \(error)")
                 return
             }
-
+            
             guard let data = data, let httpResponse = response as? HTTPURLResponse else {
                 print("No data or response received")
                 return
             }
-
+            
             /*if httpResponse.statusCode == 200 {
+             print("Payment successful!")
+             if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+             print("Payment response: \(json)")
+             
+             // call api
+             ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+             self.book_a_table_wb(advanced_payment: self.paymentForSquare)
+             }
+             } else {
+             print("Payment failed with status code: \(httpResponse.statusCode)")
+             }*/
+            if httpResponse.statusCode == 200 {
                 print("Payment successful!")
-                if let json = try? JSONSerialization.jsonObject(with: data, options: []) {
-                    print("Payment response: \(json)")
-                    
-                    // call api
-                    ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
-                    self.book_a_table_wb(advanced_payment: self.paymentForSquare)
+                do {
+                    // Parse JSON response
+                    if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                       let payment = json["payment"] as? [String: Any],
+                       let paymentId = payment["id"] as? String {
+                        print("Payment ID: \(paymentId)")
+                        self.storeSquarePaymentId = "\(paymentId)"
+                        
+                        // Call API with payment ID
+                        DispatchQueue.main.async {
+                            ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
+                            // self.book_a_table_wb(advanced_payment: self.paymentForSquare)
+                            self.pay_pending_payment_wb()
+                        }
+                    } else {
+                        print("Failed to parse 'payment' or 'id' from response")
+                        ERProgressHud.sharedInstance.hide()
+                        DispatchQueue.main.async {
+                            let alert = NewYorkAlertController(title: String("Alert"), message: String("Something wen wrong with your payment. Please try again after some time"), style: .alert)
+                            
+                            alert.addImage(UIImage.gif(name: "gif_alert"))
+                            
+                            let cancel = NewYorkButton(title: "Ok", style: .cancel)
+                            alert.addButtons([cancel])
+                            
+                            self.present(alert, animated: true)
+                        }
+                    }
+                } catch {
+                    print("Failed to parse JSON response: \(error)")
+                    ERProgressHud.sharedInstance.hide()
+                    DispatchQueue.main.async {
+                        let alert = NewYorkAlertController(title: String("Alert"), message: String("Something wen wrong with your payment. Please try again after some time"), style: .alert)
+                        
+                        alert.addImage(UIImage.gif(name: "gif_alert"))
+                        
+                        let cancel = NewYorkButton(title: "Ok", style: .cancel)
+                        alert.addButtons([cancel])
+                        
+                        self.present(alert, animated: true)
+                    }
                 }
             } else {
                 print("Payment failed with status code: \(httpResponse.statusCode)")
-            }*/
-            if httpResponse.statusCode == 200 {
-                       print("Payment successful!")
-                       do {
-                           // Parse JSON response
-                           if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                              let payment = json["payment"] as? [String: Any],
-                              let paymentId = payment["id"] as? String {
-                               print("Payment ID: \(paymentId)")
-                               self.storeSquarePaymentId = "\(paymentId)"
-                               
-                               // Call API with payment ID
-                               DispatchQueue.main.async {
-                                   ERProgressHud.sharedInstance.showDarkBackgroundView(withTitle: "Please wait...")
-                                   // self.book_a_table_wb(advanced_payment: self.paymentForSquare)
-                                   self.pay_pending_payment_wb()
-                               }
-                           } else {
-                               print("Failed to parse 'payment' or 'id' from response")
-                           }
-                       } catch {
-                           print("Failed to parse JSON response: \(error)")
-                       }
-                   } else {
-                       print("Payment failed with status code: \(httpResponse.statusCode)")
-                   }
+                ERProgressHud.sharedInstance.hide()
+                DispatchQueue.main.async {
+                    let alert = NewYorkAlertController(title: String("Alert"), message: String("Something wen wrong with your payment. Please try again after some time"), style: .alert)
+                    
+                    alert.addImage(UIImage.gif(name: "gif_alert"))
+                    
+                    let cancel = NewYorkButton(title: "Ok", style: .cancel)
+                    alert.addButtons([cancel])
+                    
+                    self.present(alert, animated: true)
+                }
+            }
         }.resume()
     }
     

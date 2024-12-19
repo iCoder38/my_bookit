@@ -146,13 +146,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate , UNUserNotificationCenter
         // completionHandler([.banner,.badge, .sound])
         
         let notification_item = notification.request.content.userInfo
+        print(notification_item as Any)
         
-        if (notification_item["type"] as! String) == "ServiceRequest" {
+//        if (notification_item["type"] as! String) == "ServiceRequest" {
             
             completionHandler([.badge, .sound])
             self.notification_new_reuest_show_for_club(dictOfNotification: notification.request.content.userInfo as NSDictionary)
             
-        }
+//        }
         
     }
     
